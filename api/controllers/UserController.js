@@ -17,15 +17,6 @@
 
 module.exports = {
 
-    index: function (req, res) {
-        return res.view({
-            corndogs: [
-                {name: 'Hank the Corndog'},
-                {name: 'Lenny the Corndog'}
-            ]
-        });
-    },
-
     /**
      * Overrides for the settings in `config/controllers.js`
      * (specific to UserController)

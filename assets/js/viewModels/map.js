@@ -3,18 +3,30 @@ Foodies.Map = function () {
     // public properties
     var self = this;
     self.keyword = ko.observable();
+    self.places = ko.observableArray();
+    self.markers = ko.observableArray();
+    self.infoWindows = ko.observableArray();
 
     // private properties
     var map;
+    var im3 = new google.maps.LatLng(30.228997, -81.584781);  // imobile3 address
 
     // public methods
-    self.searchKeyword = function (value) {
-        placeSearch(self.keyword());
+    self.searchKeyword = function () {
+        var keyword = self.keyword();
+
+        if (keyword) {
+            placeSearch(self.keyword());
+        }
     }
+
+    // socket is globalized by sails
+    socket.get('/nominations', function (response) {
+        console.log(response);
+    });
 
     // private methods
     function initialize() {
-        var im3 = new google.maps.LatLng(30.228997, -81.584781);
 
         map = new google.maps.Map(document.getElementById('map'), {
             center: im3,
@@ -31,8 +43,15 @@ Foodies.Map = function () {
     }
 
     function placeSearch(keyword) {
-        if (keyword) {
+        clearMarkers();
+        clearPlaces();
 
+        if (keyword) {
+            var request = {
+                location: im3,
+                radius: 5000,
+                name: keyword
+            };
         }
         else {
             var request = {
@@ -48,33 +67,64 @@ Foodies.Map = function () {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 for (var i = 0; i < results.length; i++) {
                     createMarkerForPlace(results[i]);
+                    createModelForPlace(results[i]);
+                }
+                if(results.length === 1) {
+                    map.setCenter(results[0].geometry.location);
+                }
+
+                if (keyword) {
+                    $.notify(results.length + ' result(s) found for ' + keyword, 'success');
                 }
             }
         }
     }
 
-    function createMarkerForPlace(place) {
-        var photos = place.photos;
+    function clearMarkers(){
+        var markers = self.markers();
 
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+    }
+
+    function clearPlaces(){
+        self.places([]);
+    }
+
+    function createModelForPlace(place) {
+        var place = ko.mapping.fromJS(place);
+        self.places.push(place);
+    }
+
+    function createMarkerForPlace(place) {
+        var markers = self.markers,
+            infoWindows = self.infoWindows;
+
+        // create infowindow
+        var infowindow = new google.maps.InfoWindow({
+            map: map,
+            position: place.geometry.location,
+            content: '<div class="infowindow">' + place.name + '</div>',
+            maxWidth: 200,
+            //icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}),
+            title: place.name
+        });
+        infowindow.close();
+        infoWindows.push(infowindow);
+
+        // create marker
         var marker = new google.maps.Marker({
             map: map,
-            position: place.geometry.location
+            position: place.geometry.location,
+            name: place.name,
+            infowindow: infowindow
         });
+        markers.push(marker);
 
+        // open infowindow on click
         google.maps.event.addListener(marker, 'click', function () {
-
-            var infowindow = new google.maps.InfoWindow({
-                map: map,
-                position: place.geometry.location,
-                content: place.name,
-                maxWidth: 200,
-                icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}),
-                title: place.name
-            });
-
-            infowindow.setContent(place.name);
             infowindow.open(map, this);
-
         });
     }
 

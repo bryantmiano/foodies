@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--
-        For demonstration purposes, the `title` is dynamically set here based on
-        your `sails.config.appName` to show that you can inject data into layouts
-        exactly the same way as with your other view templates.
-    -->
     <title>iMobile3 - Foodies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <link type="text/css" rel="stylesheet" href="styles/styles.css">
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link type="text/css" rel="stylesheet" href="styles/styles.css">
+    <link type='text/css' rel='stylesheet' href='//fonts.googleapis.com/css?family=PT+Sans+Caption:400,700'>
+    <link type='text/css' rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -26,26 +25,13 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js"></script>
+
+<script type="text/javascript" src="/js/notify.min.js"></script>
 
 <script type="text/javascript" src="/js/viewModels/base.js"></script>
 <script type="text/javascript" src="/js/viewModels/map.js"></script>
 <script type="text/javascript" src="/js/foodies.js"></script>
-
-
-<!--
-
-  Another way: The Asset Linker
-  ========================
-
-  Sails supports a Grunt-based asset linker, to automatically inject
-  <link> and <script> tags, as well any client-side templates you're using
-  into your HTML layouts and views, respecting dependencies.
-
-  You created this Sails app with the asset linker disabled.
-  If you change your mind, check out the docs on the subject:
-  http://sailsjs.org/#!documentation/asset-management
-
--->
 
 </body>
 </html>

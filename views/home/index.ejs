@@ -1,2 +1,6 @@
-<input data-bind="value: keyword" type="text" placeholder="search for some food..."/><button data-bind="click: searchKeyword">Search</button>
+<form data-bind="submit: searchKeyword">
+    <input data-bind="value: keyword" type="text" placeholder="search for some food..."/>
+    <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+
 <div id="map"></div>

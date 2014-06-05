@@ -12,7 +12,6 @@ module.exports = {
       latitude: 'float',
       longitude: 'float',
       name: 'string',
-      nominatedAt: 'datetime'
   }
 
 };
