@@ -1,8 +1,8 @@
 /**
- * UserController
+ * MapController
  *
  * @module      :: Controller
- * @description    :: A set of functions called `actions`.
+ * @description	:: A set of functions called `actions`.
  *
  *                 Actions contain code telling Sails how to respond to a certain type of request.
  *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
@@ -16,21 +16,15 @@
  */
 
 module.exports = {
-
-    index: function (req, res) {
-        return res.view({
-            corndogs: [
-                {name: 'Hank the Corndog'},
-                {name: 'Lenny the Corndog'}
-            ]
-        });
-    },
-
-    /**
-     * Overrides for the settings in `config/controllers.js`
-     * (specific to UserController)
-     */
-    _config: {}
+    
+  
 
 
+  /**
+   * Overrides for the settings in `config/controllers.js`
+   * (specific to MapController)
+   */
+  _config: {}
+
+  
 };
