@@ -1,6 +1,16 @@
+<ol data-bind="foreach: nominations">
+   <li data-bind="text: name"></li>
+</ol>
+
 <form data-bind="submit: searchKeyword">
     <input data-bind="value: keyword" type="text" placeholder="search for some food..."/>
     <button type="submit"><i class="fa fa-search"></i></button>
 </form>
 
 <div id="map"></div>
+
+<div data-bind="with: selectedPlace" id="infowindow-template">
+    <h3 data-bind="text: name"></h3>
+</div>
+
+<pre data-bind="text: ko.toJSON($data.nominations, null, 2)"></pre>

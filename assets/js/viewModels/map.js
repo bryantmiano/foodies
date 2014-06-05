@@ -3,6 +3,9 @@ Foodies.Map = function () {
     // public properties
     var self = this;
     self.keyword = ko.observable();
+    self.selectedPlace = ko.observable();
+
+    self.nominations = ko.mapping.fromJS([]);
     self.places = ko.observableArray();
     self.markers = ko.observableArray();
     self.infoWindows = ko.observableArray();
@@ -20,9 +23,16 @@ Foodies.Map = function () {
         }
     }
 
-    // socket is globalized by sails
-    socket.get('/nominations', function (response) {
-        console.log(response);
+    socket.get('/nominations', function (data) {
+        ko.mapping.fromJS(data, self.nominations);
+    });
+
+    socket.on('message', function notificationReceivedFromServer(message) {
+        if (message.model === 'nomination' && message.verb === 'create') {
+            var newNomination = ko.mapping.fromJS(message.data);
+            self.nominations.push(newNomination);
+        }
+
     });
 
     // private methods
@@ -69,7 +79,7 @@ Foodies.Map = function () {
                     createMarkerForPlace(results[i]);
                     createModelForPlace(results[i]);
                 }
-                if(results.length === 1) {
+                if (results.length === 1) {
                     map.setCenter(results[0].geometry.location);
                 }
 
@@ -80,7 +90,7 @@ Foodies.Map = function () {
         }
     }
 
-    function clearMarkers(){
+    function clearMarkers() {
         var markers = self.markers();
 
         for (var i = 0; i < markers.length; i++) {
@@ -88,7 +98,7 @@ Foodies.Map = function () {
         }
     }
 
-    function clearPlaces(){
+    function clearPlaces() {
         self.places([]);
     }
 
