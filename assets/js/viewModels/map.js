@@ -1,7 +1,18 @@
-Foodies.Map = function(){
-    var map;
-    var infowindow;
+Foodies.Map = function () {
 
+    // public properties
+    var self = this;
+    self.keyword = ko.observable();
+
+    // private properties
+    var map;
+
+    // public methods
+    self.searchKeyword = function (value) {
+        placeSearch(self.keyword());
+    }
+
+    // private methods
     function initialize() {
         var im3 = new google.maps.LatLng(30.228997, -81.584781);
 
@@ -13,50 +24,38 @@ Foodies.Map = function(){
         var infowindow = new google.maps.InfoWindow({
             map: map,
             position: im3,
-            content: 'There you are...',
-            maxWidth: 200
+            content: '<div class="infowindow">There you are...</div>',
+            maxWidth: 400
         });
+        placeSearch();
+    }
 
-        var request = {
-            location: im3,
-            radius: 5000,
-            name: ['coffee']
-        };
-        infowindow = new google.maps.InfoWindow();
+    function placeSearch(keyword) {
+        if (keyword) {
+
+        }
+        else {
+            var request = {
+                location: im3,
+                radius: 5000,
+                types: ['food', 'restaurant', 'cafe', 'coffee']
+            };
+        }
         var service = new google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
-    }
 
-    function handleNoGeolocation(errorFlag) {
-        if (errorFlag) {
-            var content = 'Error: The Geolocation service failed.';
-        } else {
-            var content = 'Error: Your browser doesn\'t support geolocation.';
-        }
-
-        var options = {
-            map: map,
-            position: new google.maps.LatLng(60, 105),
-            content: content
-        };
-
-        var infowindow = new google.maps.InfoWindow(options);
-        map.setCenter(options.position);
-    }
-
-
-    function callback(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
+        function callback(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    createMarkerForPlace(results[i]);
+                }
             }
         }
     }
 
-    function createMarker(place) {
-        console.log(place);
+    function createMarkerForPlace(place) {
+        var photos = place.photos;
 
-        var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
             map: map,
             position: place.geometry.location
@@ -66,15 +65,19 @@ Foodies.Map = function(){
 
             var infowindow = new google.maps.InfoWindow({
                 map: map,
-                position: marker.position,
+                position: place.geometry.location,
                 content: place.name,
-                maxWidth: 200
+                maxWidth: 200,
+                icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}),
+                title: place.name
             });
 
             infowindow.setContent(place.name);
             infowindow.open(map, this);
+
         });
     }
 
+    // init on load
     google.maps.event.addDomListener(window, 'load', initialize);
 };

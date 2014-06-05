@@ -1,1 +1,3 @@
-var Foodies = Foodies || {};
+$(function () {
+    ko.applyBindings(new Foodies.Map());
+});
