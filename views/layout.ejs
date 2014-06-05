@@ -6,53 +6,24 @@
         your `sails.config.appName` to show that you can inject data into layouts
         exactly the same way as with your other view templates.
     -->
-    <title><%- title %></title>
-
-    <!-- Viewport mobile tag for sensible mobile support -->
+    <title>iMobile3 - Foodies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <link type="text/css" rel="stylesheet"
-          href="//www.google.com/calendar/static/8d82c85f98c8c689da5ab834e95b79addoozercompiled_vr.css">
+    <link type="text/css" rel="stylesheet" href="styles/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
 
-<!-- Include the view file for the current controller/route -->
-<%- body %>
+<div id="container">
+    <%- body %>
+</div>
 
-
-<!--
-
-  Client-side Javascript
-  ========================
-
-  You can import any js files in your `assets` directory as you would
-  normally: using <script></script> tags.
-
-  Here's an example of importing a few dependencies, in order:
--->
-<!-- Bring in the socket.io client -->
 <script type="text/javascript" src="/js/socket.io.js"></script>
-<!-- then beef it up with some convenience logic for talking to Sails.js -->
 <script type="text/javascript" src="/js/sails.io.js"></script>
-<!-- listen on socket.io for incoming messages -->
 <script type="text/javascript" src="/js/app.js"></script>
-
-<!-- Your scripts here? -->
-<!-- Your scripts here? -->
-<!-- Your scripts here? -->
-
-
-<!--
-
-  Looking for client-side CoffeeScript or TypeScript?
-  ================================================
-
-  CoffeeScript and TypeScript precompilation are not installed by default,
-  but if you'd like to mix those features in, it is straightforward to
-  `npm install` the relevant grunt community modules and modify your Gruntfile
-  to use them.
-
--->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/foodies.js"></script>
 
 
 <!--
