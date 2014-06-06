@@ -9,11 +9,16 @@ Foodies.Map = function () {
     self.places = ko.observableArray();
     self.markers = ko.observableArray();
     self.infoWindows = ko.observableArray();
+    self.users = ko.mapping.fromJS([]);
 
     // private properties
-
     var map;
     var im3 = new google.maps.LatLng(30.228997, -81.584781);  // imobile3 address
+
+    function initialize() {
+        initMap();
+        initUsers();
+    }
 
     // public methods
     self.searchKeyword = function () {
@@ -24,21 +29,8 @@ Foodies.Map = function () {
         }
     }
 
-    socket.get('/nominations', function (data) {
-        ko.mapping.fromJS(data, self.nominations);
-    });
-
-    socket.on('message', function notificationReceivedFromServer(message) {
-        if (message.model === 'nomination' && message.verb === 'create') {
-            var newNomination = ko.mapping.fromJS(message.data);
-            self.nominations.push(newNomination);
-        }
-
-    });
-
     // private methods
-    function initialize() {
-
+    function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
             center: im3,
             zoom: 15
@@ -51,6 +43,12 @@ Foodies.Map = function () {
             maxWidth: 400
         });
         placeSearch();
+    }
+
+    function initUsers(){
+        $.get( '/users', function(data){
+            ko.mapping.fromJS(data, self.users);
+        });
     }
 
     function placeSearch(keyword) {
@@ -138,6 +136,19 @@ Foodies.Map = function () {
             infowindow.open(map, this);
         });
     }
+
+    // realtime socket
+    socket.get('/nominations', function (data) {
+        ko.mapping.fromJS(data, self.nominations);
+    });
+
+    socket.on('message', function notificationReceivedFromServer(message) {
+        if (message.model === 'nomination' && message.verb === 'create') {
+            var newNomination = ko.mapping.fromJS(message.data);
+            self.nominations.push(newNomination);
+        }
+
+    });
 
     // init on load
     google.maps.event.addDomListener(window, 'load', initialize);
