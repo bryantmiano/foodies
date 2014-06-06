@@ -1,3 +1,7 @@
 $(function () {
-    ko.applyBindings(new Foodies.Map(), $('#foodies-container')[0]);
+    $.notify.defaults({
+        globalPosition: 'top center'
+    })
+
+    ko.applyBindings(new Foodies.Map());
 });

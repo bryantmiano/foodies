@@ -4,12 +4,14 @@ Foodies.Map = function () {
     // public properties
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
+    self.selectedUser = ko.observable();
 
+    self.users = ko.mapping.fromJS([]);
     self.nominations = ko.mapping.fromJS([]);
+
     self.places = ko.observableArray();
     self.markers = ko.observableArray();
     self.infoWindows = ko.observableArray();
-    self.users = ko.mapping.fromJS([]);
 
     // private properties
     var map;
@@ -27,7 +29,16 @@ Foodies.Map = function () {
         if (keyword) {
             placeSearch(self.keyword());
         }
-    }
+    };
+
+    self.selectUser = function(user){
+        self.selectedUser(user);
+
+        var modal = $.remodal.lookup[$('#select-foodie').data('remodal')];
+        modal.close();
+
+        $.notify('Using as ' + user.name(), 'success');
+    };
 
     // private methods
     function initMap(){
@@ -137,17 +148,16 @@ Foodies.Map = function () {
         });
     }
 
-    // realtime socket
-    socket.get('/nominations', function (data) {
-        ko.mapping.fromJS(data, self.nominations);
-    });
-
+    // realtime socket methods
     socket.on('message', function notificationReceivedFromServer(message) {
         if (message.model === 'nomination' && message.verb === 'create') {
             var newNomination = ko.mapping.fromJS(message.data);
             self.nominations.push(newNomination);
         }
+    });
 
+    socket.get('/nominations', function (data) {
+        ko.mapping.fromJS(data, self.nominations);
     });
 
     // init on load

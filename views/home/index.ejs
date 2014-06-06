@@ -3,8 +3,12 @@
         <li data-bind="text: name"></li>
     </ol>
 
-    <div class="pull-right">
-        <a href="#select-foodie"><i class="fa fa-user"></i>Select Foodie</a>
+    <div id="foodie-selector" class="pull-right">
+        <a href="#select-foodie">
+            <i class="fa fa-user"></i>
+            <span data-bind="visible: !selectedUser()">Select A Foodie</span>
+            <span data-bind="with: selectedUser"><span data-bind="text: name"></span></span>
+        </a>
     </div>
 
     <form data-bind="submit: searchKeyword">
@@ -18,16 +22,18 @@
         <h3 data-bind="text: name"></h3>
     </div>
 
-    <pre data-bind="text: ko.toJSON($data.nominations, null, 2)"></pre>
-
 </div>
 
 
 <div id="select-foodie" class="remodal" data-remodal-id="select-foodie">
     <h1>Select A Foodie</h1>
+
     <ol data-bind="foreach: users" class="user-list">
-        <li>
+        <li data-bind="click: $parent.selectUser">
             <i class="fa fa-user"></i><span data-bind="text: name"></span>
         </li>
     </ol>
+
 </div>
+
+<pre data-bind="text: ko.toJSON($data.selectedUser, null, 2)"></pre>

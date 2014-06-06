@@ -80,7 +80,7 @@ a {
       color: rgb(201, 201, 201);
     }
 
-    &:nth-child(odd){
+    &:nth-child(odd) {
       background: rgb(238, 238, 238);
     }
 
@@ -92,6 +92,19 @@ a {
     &:active {
       background: darken(@brand-primary, 10%);
     }
+  }
+}
+
+#foodie-selector {
+  background: @brand-primary;
+  color: white;
+  padding: 15px;
+  a {
+    color: white;
+  }
+
+  &:hover {
+    background: lighten(@brand-primary, 10%);
   }
 }
 
