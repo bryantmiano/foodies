@@ -3,12 +3,10 @@
         <li data-bind="text: name"></li>
     </ol>
 
-    <div id="foodie-selector" class="pull-right">
-        <a href="#select-foodie">
-            <i class="fa fa-user"></i>
-            <span data-bind="visible: !selectedUser()">Select A Foodie</span>
-            <span data-bind="with: selectedUser"><span data-bind="text: name"></span></span>
-        </a>
+    <div id="foodie-selector" class="pull-right" data-remodal-target="select-foodie">
+        <i class="fa fa-user"></i>
+        <span data-bind="visible: !selectedUser()">Select A Foodie</span>
+        <span data-bind="with: selectedUser"><span data-bind="text: name"></span></span>
     </div>
 
     <form data-bind="submit: searchKeyword">

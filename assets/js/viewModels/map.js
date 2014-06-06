@@ -31,17 +31,19 @@ Foodies.Map = function () {
         }
     };
 
-    self.selectUser = function(user){
+    self.selectUser = function (user) {
         self.selectedUser(user);
 
-        var modal = $.remodal.lookup[$('#select-foodie').data('remodal')];
-        modal.close();
+        $.post('/users/login', { id: user.id }, function (response) {
+            var modal = $.remodal.lookup[$('#select-foodie').data('remodal')];
+            modal.close();
 
-        $.notify('Using as ' + user.name(), 'success');
+            $.notify('Using as ' + user.name(), 'success');
+        });
     };
 
     // private methods
-    function initMap(){
+    function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
             center: im3,
             zoom: 15
@@ -56,9 +58,18 @@ Foodies.Map = function () {
         placeSearch();
     }
 
-    function initUsers(){
-        $.get( '/users', function(data){
+    function initUsers() {
+        $.get('/users', function (data) {
             ko.mapping.fromJS(data, self.users);
+
+            // check if user is logged in already
+            $.get('/users/checkIfLoggedIn', function (data) {
+                var userId = data;
+                var user = ko.utils.arrayFirst(self.users(), function(user) {
+                    return user.id() == userId;
+                });
+                self.selectedUser(user);
+            });
         });
     }
 

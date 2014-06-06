@@ -16,12 +16,21 @@
  */
 
 module.exports = {
+    _config: {},
 
-    /**
-     * Overrides for the settings in `config/controllers.js`
-     * (specific to UserController)
-     */
-    _config: {}
+    login: function (req, res) {
+        User.findOne({ id: req.body.id }, function (err, user) {
+            req.session.user = user.id;
+            res.json(user);
+        });
+    },
 
+    checkIfLoggedIn: function (req, res) {
+        if (req.session.user) {
+            res.json(req.session.user);
+        } else {
+            res.json();
+        }
+    }
 
 };
