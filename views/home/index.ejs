@@ -1,31 +1,33 @@
-<ol data-bind="foreach: nominations">
-   <li data-bind="text: name"></li>
-</ol>
+<div id="foodies-container">
+    <ol data-bind="foreach: nominations">
+        <li data-bind="text: name"></li>
+    </ol>
 
-<div class="pull-right">
-    <a href="#select-foodie"><i class="fa fa-user"></i>Select Foodie</a>
+    <div class="pull-right">
+        <a href="#select-foodie"><i class="fa fa-user"></i>Select Foodie</a>
+    </div>
+
+    <form data-bind="submit: searchKeyword">
+        <input data-bind="value: keyword" type="text" placeholder="search for some food..."/>
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+    <div id="map"></div>
+
+    <div data-bind="with: selectedPlace" id="infowindow-template">
+        <h3 data-bind="text: name"></h3>
+    </div>
+
+    <pre data-bind="text: ko.toJSON($data.nominations, null, 2)"></pre>
+
 </div>
 
-<form data-bind="submit: searchKeyword">
-    <input data-bind="value: keyword" type="text" placeholder="search for some food..."/>
-    <button type="submit"><i class="fa fa-search"></i></button>
-</form>
 
-<div id="map"></div>
-
-<div data-bind="with: selectedPlace" id="infowindow-template">
-    <h3 data-bind="text: name"></h3>
+<div id="select-foodie" class="remodal" data-remodal-id="select-foodie">
+    <h1>Select A Foodie</h1>
+    <ol data-bind="foreach: users" class="user-list">
+        <li>
+            <i class="fa fa-user"></i><span data-bind="text: name"></span>
+        </li>
+    </ol>
 </div>
-
-<div class="remodal" data-remodal-id="select-foodie">
-    <h1>Remodal</h1>
-    <p>
-        Flat, responsive, lightweight, fast, easy customizable modal window plugin
-        with declarative state notation and hash tracking.
-    </p>
-    <br>
-    <a class="remodal-cancel" href="#">Cancel</a>
-    <a class="remodal-confirm" href="#">OK</a>
-</div>
-
-<pre data-bind="text: ko.toJSON($data.nominations, null, 2)"></pre>

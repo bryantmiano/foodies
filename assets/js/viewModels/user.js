@@ -9,7 +9,7 @@ Foodies.User = function () {
 
     function initailize(){
         $.get( '/users', function(data){
-            ko.mapping.fromJS(data, self.nominations);
+            ko.mapping.fromJS(data, self.users);
         });
     };
 

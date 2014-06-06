@@ -3,6 +3,17 @@
 
 @brand-primary: #f06821;
 
+/* apply a natural box layout model to all elements */
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
 html, body, map {
   height: 100%;
   margin: 0px;
@@ -13,6 +24,10 @@ body {
   background: white;
   font-family: 'PT Sans Caption', sans-serif;
   font-size: 14px;
+}
+
+h1 {
+  font-size: 27px;
 }
 
 input[type='text'], input[type='password'] {
@@ -53,6 +68,35 @@ a {
 .infowindow {
   min-width: 200px;
   min-height: 30px;
+}
+
+.user-list {
+  list-style: none;
+  margin: 10px 0;
+
+  li {
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+
+    i {
+      margin-right: 5px;
+      color: rgb(201, 201, 201);
+    }
+
+    &:nth-child(odd){
+      background: rgb(238, 238, 238);
+    }
+
+    &:hover {
+      background: @brand-primary;
+      color: white;
+    }
+
+    &:active {
+      background: darken(@brand-primary, 10%);
+    }
+  }
 }
 
 #container {
