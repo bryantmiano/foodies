@@ -12,6 +12,7 @@
  * http://sailsjs.org/#documentation
  */
 
+/*
 module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
@@ -36,4 +37,18 @@ module.exports.adapters = {
     password: 'YOUR_MYSQL_PASSWORD', 
     database: 'YOUR_MYSQL_DB'
   }
+};
+*/
+
+module.exports.adapters = {
+    'default': 'mongo',
+
+    mongo: {
+        module: 'sails-mongo',
+        host: 'localhost',
+        port: 27017,
+        user: 'foodiesAdmin',
+        password: 'imobile3',
+        database: 'foodies'
+    }
 };
