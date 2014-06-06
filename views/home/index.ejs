@@ -34,4 +34,9 @@
 
 </div>
 
+<div id="infowindow-template" data-bind="with: selectedPlace">
+    <h3 data-bind="text: name"></h3>
+    <img data-bind="attr: { src: photos()[0].getUrl({'maxWidth': 35, 'maxHeight': 35}) }">
+</div>
+
 <pre data-bind="text: ko.toJSON($data.selectedUser, null, 2)"></pre>

@@ -44,6 +44,20 @@ Foodies.Map = function () {
 
     // private methods
     function initMap() {
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: im3,
+            zoom: 16
+        });
+
+        // put custom marker where im3 is
+        var marker = new google.maps.Marker({
+            position: im3,
+            map: map,
+            icon: '/images/im3_logo.png'
+        });
+
+        // use custom styled map to hide google places
         var styles = [
             {
                 featureType: "poi",
@@ -54,20 +68,9 @@ Foodies.Map = function () {
         ];
         var styledMap = new google.maps.StyledMapType(styles, {name: "Styled Map"});
 
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: im3,
-            zoom: 15
-        });
-
         map.mapTypes.set('map_style', styledMap);
         map.setMapTypeId('map_style');
 
-        var infowindow = new google.maps.InfoWindow({
-            map: map,
-            position: im3,
-            content: '<div class="infowindow">There you are...</div>',
-            maxWidth: 400
-        });
         placeSearch();
     }
 
@@ -88,33 +91,25 @@ Foodies.Map = function () {
     }
 
     function placeSearch(keyword) {
-        clearMarkers();
-        clearPlaces();
-
         if (keyword) {
+            clearMarkers();
+            clearPlaces();
+
             var request = {
                 location: im3,
-                radius: 5000,
+                radius: 50000,
                 name: keyword
             };
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch(request, callback);
         }
-        else {
-            var request = {
-                location: im3,
-                radius: 5000,
-                types: ['food', 'restaurant', 'cafe', 'coffee']
-            };
-        }
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
 
         function callback(results, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 for (var i = 0; i < results.length; i++) {
                     createMarkerForPlace(results[i]);
-                    createModelForPlace(results[i]);
                 }
-                if (results.length === 1) {
+                if (results.length > 0) {
                     map.setCenter(results[0].geometry.location);
                 }
 
@@ -140,17 +135,26 @@ Foodies.Map = function () {
     function createModelForPlace(place) {
         var place = ko.mapping.fromJS(place);
         self.places.push(place);
+        return place;
     }
 
     function createMarkerForPlace(place) {
         var markers = self.markers,
             infoWindows = self.infoWindows;
 
+        console.log(place);
+
+        // create the model to attach to marker
+        var model = createModelForPlace(place);
+
+        // set to selected place for infowindow template
+        self.selectedPlace(model);
+
         // create infowindow
         var infowindow = new google.maps.InfoWindow({
             map: map,
             position: place.geometry.location,
-            content: '<div class="infowindow">' + place.name + '</div>',
+            content: '<div class="infowindow">' + $('#infowindow-template').html() + '</div>',
             maxWidth: 200,
             //icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}),
             title: place.name
@@ -163,13 +167,15 @@ Foodies.Map = function () {
             map: map,
             position: place.geometry.location,
             name: place.name,
-            infowindow: infowindow
+            infowindow: infowindow,
+            place: model
         });
         markers.push(marker);
 
         // open infowindow on click
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.open(map, this);
+            console.log(marker.place);
         });
     }
 
