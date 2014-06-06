@@ -44,10 +44,23 @@ Foodies.Map = function () {
 
     // private methods
     function initMap() {
+        var styles = [
+            {
+                featureType: "poi",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            }
+        ];
+        var styledMap = new google.maps.StyledMapType(styles, {name: "Styled Map"});
+
         map = new google.maps.Map(document.getElementById('map'), {
             center: im3,
             zoom: 15
         });
+
+        map.mapTypes.set('map_style', styledMap);
+        map.setMapTypeId('map_style');
 
         var infowindow = new google.maps.InfoWindow({
             map: map,
@@ -59,13 +72,14 @@ Foodies.Map = function () {
     }
 
     function initUsers() {
+        // get list of users
         $.get('/users', function (data) {
             ko.mapping.fromJS(data, self.users);
 
             // check if user is logged in already
             $.get('/users/checkIfLoggedIn', function (data) {
                 var userId = data;
-                var user = ko.utils.arrayFirst(self.users(), function(user) {
+                var user = ko.utils.arrayFirst(self.users(), function (user) {
                     return user.id() == userId;
                 });
                 self.selectedUser(user);
