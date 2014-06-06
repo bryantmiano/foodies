@@ -9,8 +9,11 @@
 module.exports = {
 
   attributes: {
-      name: "string",
-      password: "string"
+      name: {
+          type: "string",
+          unique: true,
+          required: true
+      }
   }
 
 };

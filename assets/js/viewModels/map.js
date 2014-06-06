@@ -1,7 +1,7 @@
 Foodies.Map = function () {
+    var self = this;
 
     // public properties
-    var self = this;
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
 
@@ -11,6 +11,7 @@ Foodies.Map = function () {
     self.infoWindows = ko.observableArray();
 
     // private properties
+
     var map;
     var im3 = new google.maps.LatLng(30.228997, -81.584781);  // imobile3 address
 

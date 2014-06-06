@@ -4,7 +4,8 @@ module.exports = {
         console.log(Nomination.find());
 
         return res.view({
-            nominations: Nomination.find()
+            nominations: Nomination.find(),
+            users: User.find()
         });
     },
 
