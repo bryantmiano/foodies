@@ -4,6 +4,7 @@ Foodies.Map = function () {
     // public properties
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
+    self.selectedDetailedPlace = ko.observable();
     self.selectedUser = ko.observable();
 
     self.users = ko.mapping.fromJS([]);
@@ -16,10 +17,14 @@ Foodies.Map = function () {
     // private properties
     var map;
     var im3 = new google.maps.LatLng(30.228997, -81.584781);  // imobile3 address
+    var placesService;
 
     function initialize() {
         initMap();
         initUsers();
+
+        placesService = new google.maps.places.PlacesService(map);
+        placeSearch();
     }
 
     // public methods
@@ -40,6 +45,10 @@ Foodies.Map = function () {
 
             $.notify('Using as ' + user.name(), 'success');
         });
+    };
+
+    self.nominatePlace = function (place) {
+        console.log(place.name());
     };
 
     // private methods
@@ -70,8 +79,6 @@ Foodies.Map = function () {
 
         map.mapTypes.set('map_style', styledMap);
         map.setMapTypeId('map_style');
-
-        placeSearch();
     }
 
     function initUsers() {
@@ -91,18 +98,17 @@ Foodies.Map = function () {
     }
 
     function placeSearch(keyword) {
-        if (keyword) {
-            clearMarkers();
-            clearPlaces();
+        //if (keyword) {
+        clearMarkers();
+        clearPlaces();
 
-            var request = {
-                location: im3,
-                radius: 50000,
-                name: keyword
-            };
-            var service = new google.maps.places.PlacesService(map);
-            service.nearbySearch(request, callback);
-        }
+        var request = {
+            location: im3,
+            radius: 50000,
+            name: "sushi"
+        };
+        placesService.nearbySearch(request, callback);
+        //}
 
         function callback(results, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -120,6 +126,23 @@ Foodies.Map = function () {
         }
     }
 
+    function getPlaceDetails(reference){
+        var request = {
+            reference: reference
+        };
+
+        placesService.getDetails(request, callback);
+
+        function callback(place, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                console.log(place);
+
+                var model = createModelForPlace(place);
+                self.selectedDetailedPlace(model);
+            }
+        }
+    }
+
     function clearMarkers() {
         var markers = self.markers();
 
@@ -133,7 +156,30 @@ Foodies.Map = function () {
     }
 
     function createModelForPlace(place) {
+        //console.log(place);
         var place = ko.mapping.fromJS(place);
+
+        place.imageUrl = ko.computed(function () {
+            var url;
+            if (place.hasOwnProperty('photos') && place.photos().length > 0) {
+                url = place.photos()[0].getUrl({'maxWidth': 250, 'maxHeight': 250})
+            }
+            else {
+                url = place.icon();
+            }
+            return url;
+        });
+
+        place.formatted_website = ko.computed(function(){
+            var url;
+            if (place.hasOwnProperty('website')) {
+                url = place.website();
+            } else {
+                url = null;
+            }
+            return url;
+        })
+
         self.places.push(place);
         return place;
     }
@@ -141,8 +187,6 @@ Foodies.Map = function () {
     function createMarkerForPlace(place) {
         var markers = self.markers,
             infoWindows = self.infoWindows;
-
-        console.log(place);
 
         // create the model to attach to marker
         var model = createModelForPlace(place);
@@ -154,8 +198,8 @@ Foodies.Map = function () {
         var infowindow = new google.maps.InfoWindow({
             map: map,
             position: place.geometry.location,
-            content: '<div class="infowindow">' + $('#infowindow-template').html() + '</div>',
-            maxWidth: 200,
+            content: $('#infowindow-template').html(),
+            maxWidth: 500,
             //icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35}),
             title: place.name
         });
@@ -174,10 +218,20 @@ Foodies.Map = function () {
 
         // open infowindow on click
         google.maps.event.addListener(marker, 'click', function () {
+            getPlaceDetails(place.reference);
+
+            var infoWindows = self.infoWindows();
+
+            for (var i = 0; i < infoWindows.length; i++) {
+
+                infoWindows[i].close();
+            }
+
             infowindow.open(map, this);
-            console.log(marker.place);
         });
     }
+
+
 
     // realtime socket methods
     socket.on('message', function notificationReceivedFromServer(message) {
