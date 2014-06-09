@@ -38,6 +38,12 @@ button {
   border: none;
   cursor: pointer;
   font-weight: bold;
+  border-radius: 2px;
+  border-bottom: 2px solid darken(@brand-primary, 10%);
+
+  i {
+    margin-right: 5px;
+  }
 
   &:hover {
     background: lighten(@brand-primary, 10%);
@@ -61,6 +67,9 @@ a {
   }
 }
 
+.hide {
+  display: none;
+}
 
 .infowindow {
 
@@ -103,10 +112,14 @@ a {
   background: @brand-primary;
   color: white;
   padding: 15px;
-  position: absolute;
+  position: fixed;
+  font-size: 18px;
   top: 0;
   right: 0;
   cursor: pointer;
+  border-bottom-left-radius: 10px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.22);
+  border: none;
 
   &:hover {
     background: lighten(@brand-primary, 10%);
@@ -119,9 +132,8 @@ a {
 
 #map-container {
   border-radius: 10px;
-  box-shadow: 1px 1px 1px #863F1A;
   margin: 20px 0;
-  border: 7px solid @brand-primary;
+  border: 7px solid #D8D8D8;
   width: 100%;
 }
 
@@ -147,5 +159,20 @@ a {
     font-weight: normal;
     color: gray;
     margin: 10px 0 20px 0;
+  }
+
+  h6 {
+    margiN: 10px 0;
+  }
+
+  #reviews {
+    color: rgb(168, 168, 168);
+    b {
+      color: @brand-primary;
+    }
+  }
+
+  button {
+    margin: 40px 0;
   }
 }

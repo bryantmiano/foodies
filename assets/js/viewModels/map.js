@@ -7,7 +7,7 @@ Foodies.Map = function () {
     self.selectedDetailedPlace = ko.observable();
     self.selectedUser = ko.observable();
 
-    self.users = ko.mapping.fromJS([]);
+    self.users = ko.observableArray().socket('/users');
     self.nominations = ko.mapping.fromJS([]);
 
     self.places = ko.observableArray();
@@ -21,7 +21,6 @@ Foodies.Map = function () {
 
     function initialize() {
         initMap();
-        initUsers();
 
         placesService = new google.maps.places.PlacesService(map);
         placeSearch();
@@ -81,19 +80,13 @@ Foodies.Map = function () {
         map.setMapTypeId('map_style');
     }
 
-    function initUsers() {
-        // get list of users
-        $.get('/users', function (data) {
-            ko.mapping.fromJS(data, self.users);
-
-            // check if user is logged in already
-            $.get('/users/checkIfLoggedIn', function (data) {
-                var userId = data;
-                var user = ko.utils.arrayFirst(self.users(), function (user) {
-                    return user.id() == userId;
-                });
-                self.selectedUser(user);
+    function checkIfLoggedIn(){
+        $.get('/users/checkIfLoggedIn', function (data) {
+            var userId = data;
+            var user = ko.utils.arrayFirst(self.users(), function (user) {
+                return user.id() == userId;
             });
+            self.selectedUser(user);
         });
     }
 

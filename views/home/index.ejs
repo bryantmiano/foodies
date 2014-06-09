@@ -24,9 +24,13 @@
             <h6 data-bind="visible: formatted_website">
                 <a data-bind="attr: { href: formatted_website }, text: formatted_website"></a>
             </h6>
-            <a href="#" data-bind="click: $root.nominatePlace, attr: { 'data-id': id }">
+            <div id="reviews">
+                <b data-bind="text: rating"></b>/5
+                (<span data-bind="text: user_ratings_total"></span> reviews)
+            </div>
+            <button data-bind="click: $root.nominatePlace, attr: { 'data-id': id }">
                 <i class="fa fa-cutlery"></i>Let's eat lunch here!
-            </a>
+            </button>
         </div>
     </section>
 
@@ -44,7 +48,7 @@
 
 </div>
 
-<div id="infowindow-template" data-bind="with: selectedPlace">
+<div id="infowindow-template" data-bind="with: selectedPlace" class="hide">
     <div class="infowindow">
         <img data-bind="attr: { src: imageUrl }">
     </div>
@@ -52,4 +56,4 @@
 
 
 
-<pre data-bind="text: ko.toJSON($data.selectedUser, null, 2)"></pre>
+<pre data-bind="text: ko.toJSON($data.users, null, 2)"></pre>
