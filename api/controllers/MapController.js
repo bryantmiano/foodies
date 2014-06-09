@@ -23,6 +23,20 @@ module.exports = {
         });
     },
 
+    passmarket: function(req, res) {
+        var pm = new sails.passmarket({
+            agencyId: 1018,
+            apiKey: '4y0op5elm67xgn60igj6',
+            apiSecretKey: 'x7f4l695yr5ijmrygo9wipox49ihxqy5dffed5b2',
+            identifier: '10e758f0-c449-4cea-9c2a-d909e05fdd86'
+        });
+
+        var data = pm.search({ phrase: 'burrito' }, function(data){
+            return res.json(data);
+        });
+
+    },
+
     /**
      * Overrides for the settings in `config/controllers.js`
      * (specific to MapController)

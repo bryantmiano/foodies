@@ -13,4 +13,5 @@ $(function () {
     ko.applyBindings(viewModel);
 
     ko.router.init();
+
 });
