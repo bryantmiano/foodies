@@ -8,15 +8,12 @@ Foodies.Map = function () {
     self.selectedUser = ko.observable().socket('/users/getLoggedInUser');
 
     self.users = ko.observableArray().socket('/users');
+
     self.nominations = ko.observableArray().socket('/nominations');
     self.sortedNominations = ko.computed(function(){
         var data = self.nominations().sort(function (l, r) {
-            var leftDate = Date.parse(l.createdAt());
-            var rightDate = Date.parse(r.createdAt());
-            return leftDate < rightDate ? 1 : -1;
+            return Date.parse(l.createdAt()) < Date.parse(r.createdAt()) ? 1 : -1; // sort by createdAt date
         });
-
-        console.log(data);
         return data;
     });
 
@@ -146,8 +143,6 @@ Foodies.Map = function () {
 
         function callback(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
-                console.log(place);
-
                 var model = createModelForPlace(place);
                 self.selectedDetailedPlace(model);
             }
