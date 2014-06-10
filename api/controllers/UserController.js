@@ -20,16 +20,16 @@ module.exports = {
 
     login: function (req, res) {
         User.findOne({ id: req.body.id }, function (err, user) {
-            req.session.user = user.id;
+            req.session.user = user;
             res.json(user);
         });
     },
 
-    checkIfLoggedIn: function (req, res) {
+    getLoggedInUser: function (req, res) {
         if (req.session.user) {
             res.json(req.session.user);
         } else {
-            res.json();
+            res.json(null);
         }
     }
 

@@ -5,7 +5,7 @@ Foodies.Map = function () {
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
     self.selectedDetailedPlace = ko.observable();
-    self.selectedUser = ko.observable();
+    self.selectedUser = ko.observable('teoijadio').socket('/users/getLoggedInUser');
 
     self.users = ko.observableArray().socket('/users');
     self.nominations = ko.mapping.fromJS([]);
@@ -79,7 +79,7 @@ Foodies.Map = function () {
         map.mapTypes.set('map_style', styledMap);
         map.setMapTypeId('map_style')
     }
-
+/*
     function checkIfLoggedIn(){
         $.get('/users/checkIfLoggedIn', function (data) {
             var userId = data;
@@ -89,6 +89,7 @@ Foodies.Map = function () {
             self.selectedUser(user);
         });
     }
+    */
 
     function placeSearch(keyword) {
         //if (keyword) {

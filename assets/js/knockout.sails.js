@@ -26,37 +26,31 @@
         throw "Knockout Mapping plugin is required.  https://github.com/SteveSanderson/knockout.mapping";
 
     // socket for observables
-    ko.observable.fn.socket = function(socketUrl, callback) {
+    ko.observable.fn.socket = function (socketUrl, callback) {
         if (!socketUrl) throw "socketUrl cannot be null.";
 
-        var result = ko.computed(function(){
-            var observable = this;
+        var obs = this;
 
-            //observable = ko.mapping.fromJS([]);
+        socket.get(socketUrl, function (data) {
+            if (data instanceof Array) {
+                throw "Response for socket url '" + socketUrl + "' and did not return a single object."
+            }
 
-            socket.get(socketUrl, function (data) {
-                if (data instanceof Array) {
-                    throw "Response for socket url '" + socketUrl + "' and did not return a single object."
-                }
+            obs(ko.mapping.fromJS(data));
 
-                ko.mapping.fromJS(data, observable);
+            if (typeof callback == "function") callback(data);
+        });
 
-                if (typeof callback == "function") callback(data);
-            });
-
-            return this;
-
-        }, this);
+        return obs;
     };
 
     // socket for observable arrays
-    ko.observableArray.fn.socket = function(socketUrl, callback) {
+    ko.observableArray.fn.socket = function (socketUrl, callback) {
+        if (!socketUrl) throw "socketUrl cannot be null.";
+
         var observableArray = this;
 
-        observableArray = ko.mapping.fromJS([]);
-
         socket.get(socketUrl, function (data) {
-            //console.log(data);
             if (!data instanceof Array) {
                 throw "Response for socket url" + socketUrl + " did not return an array."
             }
@@ -67,24 +61,5 @@
         });
 
         return observableArray;
-    };
-
-    ko.extenders.socket = function(target, options) {
-        var socketUrl = options.url;
-
-        socket.get(socketUrl, function (data) {
-            //console.log(data);
-            if (!data instanceof Array) {
-                throw "Response for socket url" + socketUrl + " did not return an array."
-            }
-
-            ko.mapping.fromJS(data, {}, target);
-
-            console.log(target());
-
-            // if (typeof callback == "function") callback();
-        });
-
-        return target;
     };
 }));
