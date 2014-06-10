@@ -31,7 +31,7 @@ module.exports = {
             identifier: '10e758f0-c449-4cea-9c2a-d909e05fdd86'
         });
 
-        var data = pm.search({ phrase: 'burrito' }, function(data){
+        var data = pm.search({ phrase: 'burrito', latitude: 20.11, longitude: 32.2 }, function(data){
             return res.json(data);
         });
 
