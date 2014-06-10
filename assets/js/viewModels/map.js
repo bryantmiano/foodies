@@ -8,7 +8,17 @@ Foodies.Map = function () {
     self.selectedUser = ko.observable().socket('/users/getLoggedInUser');
 
     self.users = ko.observableArray().socket('/users');
-    self.nominations = ko.observableArray().socket('/nominations', sortNominations);
+    self.nominations = ko.observableArray().socket('/nominations');
+    self.sortedNominations = ko.computed(function(){
+        var data = self.nominations().sort(function (l, r) {
+            var leftDate = Date.parse(l.createdAt());
+            var rightDate = Date.parse(r.createdAt());
+            return leftDate < rightDate ? 1 : -1;
+        });
+
+        console.log(data);
+        return data;
+    });
 
     self.places = ko.observableArray();
     self.markers = ko.observableArray();
@@ -47,33 +57,27 @@ Foodies.Map = function () {
     };
 
     self.nominatePlace = function (place) {
+
+        console.log(ko.toJS(self.selectedUser()));
+
         var newNomination = {
             name: place.name(),
             latitude: place.geometry.location.lat(),
             longitude: place.geometry.location.lng(),
-            address: place.formatted_address()
+            address: place.formatted_address(),
+            userId: self.selectedUser().id()
         };
 
         $.post('/nominations/create', newNomination, function (response) {
-            $.notify('Nominated ', 'success');
-            sortNominations();
+            $.notify('You wanna eat there!', 'success');
         });
     };
 
-    function sortNominations(){
-        self.nominations.sort(function(l, r){
-            var leftDate = Date.parse(l.createdAt());
-            var rightDate = Date.parse(r.createdAt());
-
-            console.log(leftDate);
-            console.log(rightDate);
-            console.log(leftDate > rightDate);
-
-            console.log('');
-
-            return leftDate < rightDate ? 1 : -1;
+    self.destroyNomination = function (nomination) {
+        socket.delete('/nominations/destroy/' + nomination.id(), function (response) {
+            console.log(response);
         });
-    }
+    };
 
     // private methods
     function initMap() {

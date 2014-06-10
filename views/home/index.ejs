@@ -1,6 +1,9 @@
 <div id="foodies-container">
-    <ol class="nominations" data-bind="foreach: nominations">
-        <li data-bind="text: name"></li>
+    <ol class="nominations" data-bind="foreach: sortedNominations">
+        <li>
+            <h5 data-bind="text: name"></h5>
+            <i data-bind="click: $parent.destroyNomination" class="fa fa-trash-o"></i>
+        </li>
     </ol>
 
     <div id="foodie-selector" class="pull-right" data-remodal-target="select-foodie">
@@ -56,4 +59,4 @@
 
 
 
-<pre data-bind="text: ko.toJSON($data.selectedUser, null, 2)"></pre>
+<pre data-bind="text: ko.toJSON($data.sortedNominations, null, 2)"></pre>

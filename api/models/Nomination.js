@@ -28,6 +28,14 @@ module.exports = {
         leavingAt: {
             type: 'datetime',
             required: false
+        },
+        userId: {
+            type: 'string',
+            required: true
+        },
+        imageUrl: {
+            type: 'string',
+            required: false
         }
     }
 
