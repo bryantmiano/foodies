@@ -1,5 +1,5 @@
 <div id="foodies-container">
-    <ol data-bind="foreach: nominations">
+    <ol class="nominations" data-bind="foreach: nominations">
         <li data-bind="text: name"></li>
     </ol>
 
@@ -9,7 +9,7 @@
         <span data-bind="with: selectedUser"><span data-bind="text: name"></span></span>
     </div>
 
-    <form data-bind="submit: searchKeyword">
+    <form id='keyword-search' data-bind="submit: searchKeyword">
         <input data-bind="value: keyword" type="text" placeholder="search for some food..."/>
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>

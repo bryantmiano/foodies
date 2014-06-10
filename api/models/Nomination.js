@@ -20,6 +20,14 @@ module.exports = {
         name: {
             type: 'string',
             required: true
+        },
+        address: {
+            type: 'string',
+            required: true
+        },
+        leavingAt: {
+            type: 'datetime',
+            required: false
         }
     }
 

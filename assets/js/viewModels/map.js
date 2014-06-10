@@ -5,10 +5,10 @@ Foodies.Map = function () {
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
     self.selectedDetailedPlace = ko.observable();
-    self.selectedUser = ko.observable('teoijadio').socket('/users/getLoggedInUser');
+    self.selectedUser = ko.observable().socket('/users/getLoggedInUser');
 
     self.users = ko.observableArray().socket('/users');
-    self.nominations = ko.mapping.fromJS([]);
+    self.nominations = ko.observableArray().socket('/nominations', sortNominations);
 
     self.places = ko.observableArray();
     self.markers = ko.observableArray();
@@ -47,8 +47,33 @@ Foodies.Map = function () {
     };
 
     self.nominatePlace = function (place) {
-        console.log(place.name());
+        var newNomination = {
+            name: place.name(),
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng(),
+            address: place.formatted_address()
+        };
+
+        $.post('/nominations/create', newNomination, function (response) {
+            $.notify('Nominated ', 'success');
+            sortNominations();
+        });
     };
+
+    function sortNominations(){
+        self.nominations.sort(function(l, r){
+            var leftDate = Date.parse(l.createdAt());
+            var rightDate = Date.parse(r.createdAt());
+
+            console.log(leftDate);
+            console.log(rightDate);
+            console.log(leftDate > rightDate);
+
+            console.log('');
+
+            return leftDate < rightDate ? 1 : -1;
+        });
+    }
 
     // private methods
     function initMap() {
@@ -79,17 +104,6 @@ Foodies.Map = function () {
         map.mapTypes.set('map_style', styledMap);
         map.setMapTypeId('map_style')
     }
-/*
-    function checkIfLoggedIn(){
-        $.get('/users/checkIfLoggedIn', function (data) {
-            var userId = data;
-            var user = ko.utils.arrayFirst(self.users(), function (user) {
-                return user.id() == userId;
-            });
-            self.selectedUser(user);
-        });
-    }
-    */
 
     function placeSearch(keyword) {
         //if (keyword) {
@@ -99,10 +113,9 @@ Foodies.Map = function () {
         var request = {
             location: im3,
             radius: 50000,
-            name: "sushi"
+            name: keyword
         };
         placesService.nearbySearch(request, callback);
-        //}
 
         function callback(results, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -120,7 +133,7 @@ Foodies.Map = function () {
         }
     }
 
-    function getPlaceDetails(reference){
+    function getPlaceDetails(reference) {
         var request = {
             reference: reference
         };
@@ -164,7 +177,7 @@ Foodies.Map = function () {
             return url;
         });
 
-        place.formatted_website = ko.computed(function(){
+        place.formatted_website = ko.computed(function () {
             var url;
             if (place.hasOwnProperty('website')) {
                 url = place.website();
@@ -225,18 +238,12 @@ Foodies.Map = function () {
         });
     }
 
-
-
     // realtime socket methods
     socket.on('message', function notificationReceivedFromServer(message) {
         if (message.model === 'nomination' && message.verb === 'create') {
             var newNomination = ko.mapping.fromJS(message.data);
             self.nominations.push(newNomination);
         }
-    });
-
-    socket.get('/nominations', function (data) {
-        ko.mapping.fromJS(data, self.nominations);
     });
 
     // init on load
