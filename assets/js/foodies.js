@@ -15,6 +15,8 @@ $(function () {
     ko.router.init();
 });
 
+var socket = io.socket;
+
 Foodies = {};
 
 Foodies.Map = function () {
@@ -64,10 +66,7 @@ Foodies.Map = function () {
     self.selectUser = function (user) {
         self.selectedUser(user);
 
-        console.log(user);
-
         io.socket.post('/user/login', { id: user.id() }, function (response) {
-            console.log(response);
             var modal = $.remodal.lookup[$('#select-foodie').data('remodal')];
             modal.close();
 
@@ -76,7 +75,6 @@ Foodies.Map = function () {
     };
 
     self.nominatePlace = function (place) {
-
         var newNomination = {
             name: place.name(),
             latitude: place.geometry.location.lat()(),
@@ -85,8 +83,7 @@ Foodies.Map = function () {
             user: self.selectedUser().id()
         };
 
-        io.socket.post('/nomination/create', newNomination, function (response) {
-            console.log(response);
+        socket.post('/nomination/create', newNomination, function (response) {
             $.notify('You wanna eat there!', 'success');
         });
     };
@@ -136,7 +133,7 @@ Foodies.Map = function () {
         var request = {
             location: im3,
             radius: 50000,
-            name: keyword
+            name: 'burrito'
         };
         placesService.nearbySearch(request, callback);
 

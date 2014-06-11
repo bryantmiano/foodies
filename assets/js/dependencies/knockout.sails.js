@@ -25,8 +25,6 @@
     if (typeof ko.mapping !== "object")
         throw "Knockout Mapping plugin is required.  https://github.com/SteveSanderson/knockout.mapping";
 
-    socket = io.socket;
-
     // socket for observables
     ko.observable.fn.socket = function (options, callback) {
         var socketUrl;
