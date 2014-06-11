@@ -17,14 +17,6 @@
 
 module.exports = {
 
-    /*
-    index: function (req, res) {
-        Nomination.find().populate('user').exec(function(error, data){
-            res.json(data);
-        })
-    },
-    */
-
     /**
      * Overrides for the settings in `config/controllers.js`
      * (specific to NominationController)

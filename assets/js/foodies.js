@@ -64,7 +64,10 @@ Foodies.Map = function () {
     self.selectUser = function (user) {
         self.selectedUser(user);
 
-        $.post('/user/login', { id: user.id }, function (response) {
+        console.log(user);
+
+        io.socket.post('/user/login', { id: user.id() }, function (response) {
+            console.log(response);
             var modal = $.remodal.lookup[$('#select-foodie').data('remodal')];
             modal.close();
 
@@ -76,20 +79,22 @@ Foodies.Map = function () {
 
         var newNomination = {
             name: place.name(),
-            latitude: place.geometry.location.lat(),
-            longitude: place.geometry.location.lng(),
+            latitude: place.geometry.location.lat()(),
+            longitude: place.geometry.location.lng()(),
             address: place.formatted_address(),
             user: self.selectedUser().id()
         };
 
-        $.post('/nomination/create', newNomination, function (response) {
+        io.socket.post('/nomination/create', newNomination, function (response) {
+            console.log(response);
             $.notify('You wanna eat there!', 'success');
         });
     };
 
     self.destroyNomination = function (nomination) {
         io.socket.delete('/nomination/destroy/' + nomination.id(), function (response) {
-            //console.log(response);
+            self.nominations.remove(nomination);
+            $.notify('Deleted.', 'success');
         });
     };
 
@@ -254,13 +259,6 @@ Foodies.Map = function () {
         });
     }
 
-    // realtime socket methods
-    socket.on('message', function notificationReceivedFromServer(message) {
-        if (message.model === 'nomination' && message.verb === 'create') {
-            var newNomination = ko.mapping.fromJS(message.data);
-            self.nominations.push(newNomination);
-        }
-    });
 
     // init on load
     google.maps.event.addDomListener(window, 'load', initialize);

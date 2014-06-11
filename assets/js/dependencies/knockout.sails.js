@@ -74,8 +74,16 @@
 
         if (options.hasOwnProperty('model')) {
             socket.on(options.model, function (message) {
+
+                console.log('New comet message: ');
                 console.log(message);
-            })
+
+                // create socket event
+                if (message.verb === 'created') {
+                    var newNomination = ko.mapping.fromJS(message.data);
+                    observableArray.push(newNomination);
+                }
+            });
         };
 
         return observableArray;

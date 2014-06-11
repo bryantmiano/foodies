@@ -19,7 +19,16 @@ module.exports = {
     _config: {},
 
     login: function (req, res) {
-        User.findOne({ id: req.body.id }, function (err, user) {
+        console.log(req.allParams());
+
+        var userId = req.param('id');
+
+        if(!userId) {
+            res.status(400);
+            res.json('User id is required');
+        }
+
+        User.findOne({ id: userId }, function (err, user) {
             req.session.user = user;
             res.json(user);
         });
