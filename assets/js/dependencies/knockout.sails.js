@@ -28,10 +28,15 @@
     socket = io.socket;
 
     // socket for observables
-    ko.observable.fn.socket = function (socketUrl, callback) {
-        if (!socketUrl) throw "socketUrl cannot be null.";
-
+    ko.observable.fn.socket = function (options, callback) {
+        var socketUrl;
         var obs = this;
+
+        if(options.hasOwnProperty('url')) {
+            socketUrl = options.url;
+        } else if (options.hasOwnProperty('model')) {
+            socketUrl = '/' + options.model;
+        }
 
         socket.get(socketUrl, function (data) {
             if (data instanceof Array) {
@@ -47,10 +52,15 @@
     };
 
     // socket for observable arrays
-    ko.observableArray.fn.socket = function (socketUrl, callback) {
-        if (!socketUrl) throw "socketUrl cannot be null.";
-
+    ko.observableArray.fn.socket = function (options, callback) {
+        var socketUrl;
         var observableArray = this;
+
+        if(options.hasOwnProperty('url')) {
+            socketUrl = options.url;
+        } else if (options.hasOwnProperty('model')) {
+            socketUrl = '/' + options.model;
+        }
 
         socket.get(socketUrl, function (data) {
             if (!data instanceof Array) {
@@ -61,6 +71,12 @@
 
             if (typeof callback == "function") callback(data);
         });
+
+        if (options.hasOwnProperty('model')) {
+            socket.on(options.model, function (message) {
+                console.log(message);
+            })
+        };
 
         return observableArray;
     };

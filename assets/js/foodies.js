@@ -1,4 +1,4 @@
-$(function(){
+$(function () {
     $.notify.defaults({
         globalPosition: 'top center'
     });
@@ -24,12 +24,12 @@ Foodies.Map = function () {
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
     self.selectedDetailedPlace = ko.observable();
-    self.selectedUser = ko.observable().socket('/users/getLoggedInUser');
+    self.selectedUser = ko.observable().socket({ url: '/user/getLoggedInUser'});
 
-    self.users = ko.observableArray().socket('/users');
+    self.users = ko.observableArray().socket({ model: 'user' });
 
-    self.nominations = ko.observableArray().socket('/nominations');
-    self.sortedNominations = ko.computed(function(){
+    self.nominations = ko.observableArray().socket({ model: 'nomination' });
+    self.sortedNominations = ko.computed(function () {
         var data = self.nominations().sort(function (l, r) {
             return Date.parse(l.createdAt()) < Date.parse(r.createdAt()) ? 1 : -1; // sort by createdAt date
         });
@@ -64,7 +64,7 @@ Foodies.Map = function () {
     self.selectUser = function (user) {
         self.selectedUser(user);
 
-        $.post('/users/login', { id: user.id }, function (response) {
+        $.post('/user/login', { id: user.id }, function (response) {
             var modal = $.remodal.lookup[$('#select-foodie').data('remodal')];
             modal.close();
 
@@ -74,8 +74,6 @@ Foodies.Map = function () {
 
     self.nominatePlace = function (place) {
 
-        console.log(ko.toJS(self.selectedUser()));
-
         var newNomination = {
             name: place.name(),
             latitude: place.geometry.location.lat(),
@@ -84,13 +82,13 @@ Foodies.Map = function () {
             user: self.selectedUser().id()
         };
 
-        $.post('/nominations/create', newNomination, function (response) {
+        $.post('/nomination/create', newNomination, function (response) {
             $.notify('You wanna eat there!', 'success');
         });
     };
 
     self.destroyNomination = function (nomination) {
-        io.socket.delete('/nominations/destroy/' + nomination.id(), function (response) {
+        io.socket.delete('/nomination/destroy/' + nomination.id(), function (response) {
             //console.log(response);
         });
     };
