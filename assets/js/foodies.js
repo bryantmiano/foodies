@@ -80,7 +80,7 @@ Foodies.Map = function () {
             latitude: place.geometry.location.lat()(),
             longitude: place.geometry.location.lng()(),
             address: place.formatted_address(),
-            user: self.selectedUser().id()
+            user: self.selectedUser()
         };
 
         $.post('/nomination/create', newNomination, function (response) {
@@ -129,14 +129,15 @@ Foodies.Map = function () {
     }
 
     function placeSearch(keyword) {
-        //if (keyword) {
+        if (!keyword) return;
+
         clearMarkers();
         clearPlaces();
 
         var request = {
             location: im3,
             radius: 50000,
-            name: 'burrito'
+            name: keyword
         };
         placesService.nearbySearch(request, callback);
 
@@ -152,6 +153,8 @@ Foodies.Map = function () {
                 if (keyword) {
                     $.notify(results.length + ' result(s) found for ' + keyword, 'success');
                 }
+
+                map.setZoom(13);
             }
         }
     }

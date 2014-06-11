@@ -30,7 +30,7 @@
         var socketUrl;
         var obs = this;
 
-        if(options.hasOwnProperty('url')) {
+        if (options.hasOwnProperty('url')) {
             socketUrl = options.url;
         } else if (options.hasOwnProperty('model')) {
             socketUrl = '/' + options.model;
@@ -54,7 +54,7 @@
         var socketUrl;
         var observableArray = this;
 
-        if(options.hasOwnProperty('url')) {
+        if (options.hasOwnProperty('url')) {
             socketUrl = options.url;
         } else if (options.hasOwnProperty('model')) {
             socketUrl = '/' + options.model;
@@ -76,20 +76,26 @@
                 console.log('New comet message: ');
                 console.log(message);
 
-                // create socket event
+                // handle created event
                 if (message.verb === 'created') {
-                    var createdObj = ko.mapping.fromJS(message.data);
-                    observableArray.push(createdObj);
+                    var socketGetUrl = socketUrl + '/' + message.id;
+                    $.get(socketGetUrl, function (data) {
+                        var createdObj = ko.mapping.fromJS(data);
+                        observableArray.push(createdObj);
+                    });
+
+                // handle destroyed event
                 } else if (message.verb === "destroyed") {
 
-                    var destroyedObj = ko.utils.arrayFirst(observableArray(), function(item) {
+                    var destroyedObj = ko.utils.arrayFirst(observableArray(), function (item) {
                         return item.id() === message.id;
                     });
 
                     observableArray.remove(destroyedObj);
                 }
             });
-        };
+        }
+        ;
 
         return observableArray;
     };
