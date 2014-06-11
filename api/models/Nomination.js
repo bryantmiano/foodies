@@ -29,9 +29,8 @@ module.exports = {
             type: 'datetime',
             required: false
         },
-        userId: {
-            type: 'string',
-            required: true
+        user: {
+            model: 'user'
         },
         imageUrl: {
             type: 'string',

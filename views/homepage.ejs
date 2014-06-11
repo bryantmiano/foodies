@@ -1,7 +1,7 @@
 <div id="foodies-container">
     <ol class="nominations" data-bind="foreach: sortedNominations">
         <li>
-            <h5><span data-bind="text: userId"></span> wants to eat at <span data-bind="text: name"></span></h5>
+            <h5><span data-bind="text: user.name"></span> wants to eat at <span data-bind="text: name"></span></h5>
             <h6 data-bind="text: address"></h6>
             <i data-bind="click: $parent.destroyNomination" class="fa fa-trash-o"></i>
         </li>

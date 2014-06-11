@@ -81,7 +81,7 @@ Foodies.Map = function () {
             latitude: place.geometry.location.lat(),
             longitude: place.geometry.location.lng(),
             address: place.formatted_address(),
-            userId: self.selectedUser().id()
+            user: self.selectedUser().id()
         };
 
         $.post('/nominations/create', newNomination, function (response) {
@@ -90,8 +90,8 @@ Foodies.Map = function () {
     };
 
     self.destroyNomination = function (nomination) {
-        socket.delete('/nominations/destroy/' + nomination.id(), function (response) {
-            console.log(response);
+        io.socket.delete('/nominations/destroy/' + nomination.id(), function (response) {
+            //console.log(response);
         });
     };
 

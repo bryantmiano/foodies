@@ -18,22 +18,9 @@
 module.exports = {
 
     index: function (req, res) {
-        Nomination.find().exec(function (err, nominations) {
-            nominations.forEach(function (nomination) {
-
-                // populate user
-                User.findOne({ id: nomination.userId }, function (err, user) {
-                    console.log(user);
-                    nomination.user = user;
-
-                    res.json(nominations);
-
-                });
-
-            });
-
-
-        });
+        Nomination.find().populate('user').exec(function(error, data){
+            res.json(data);
+        })
     },
 
     /**
