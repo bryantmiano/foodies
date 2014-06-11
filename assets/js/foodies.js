@@ -83,15 +83,18 @@ Foodies.Map = function () {
             user: self.selectedUser().id()
         };
 
-        socket.post('/nomination/create', newNomination, function (response) {
+        $.post('/nomination/create', newNomination, function (response) {
             $.notify('You wanna eat there!', 'success');
         });
     };
 
     self.destroyNomination = function (nomination) {
-        io.socket.delete('/nomination/destroy/' + nomination.id(), function (response) {
-            self.nominations.remove(nomination);
-            $.notify('Deleted.', 'success');
+        $.ajax({
+            url: '/nomination/destroy/' + nomination.id(),
+            type: 'DELETE',
+            success: function(result) {
+                $.notify('Deleted.', 'success');
+            }
         });
     };
 

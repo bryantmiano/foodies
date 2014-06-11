@@ -78,8 +78,15 @@
 
                 // create socket event
                 if (message.verb === 'created') {
-                    var newNomination = ko.mapping.fromJS(message.data);
-                    observableArray.push(newNomination);
+                    var createdObj = ko.mapping.fromJS(message.data);
+                    observableArray.push(createdObj);
+                } else if (message.verb === "destroyed") {
+
+                    var destroyedObj = ko.utils.arrayFirst(observableArray(), function(item) {
+                        return item.id() === message.id;
+                    });
+
+                    observableArray.remove(destroyedObj);
                 }
             });
         };
