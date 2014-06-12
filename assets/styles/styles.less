@@ -56,6 +56,10 @@ button {
   &:active {
     background: darken(@brand-primary, 10%);
   }
+
+  &.danger {
+    background: rgb(196, 16, 16);
+  }
 }
 
 a {
@@ -69,6 +73,18 @@ a {
   &:hover {
     color: lighten(@brand-primary, 10%);
   }
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.clear {
+  clear: both;
 }
 
 .hide {
@@ -123,10 +139,6 @@ a {
     border: 1px solid rgb(219, 219, 219);
     padding: 10px;
     position: relative;
-  }
-
-  button {
-    float: right;
   }
 
   .fa-trash-o {

@@ -12,17 +12,24 @@
     </form>
 
 
-    <ol id="nominations-container" class="nominations" data-bind="foreach: sortedNominations">
+    <ol id="nominations-container" class="nominations" data-bind="foreach: { data: sortedNominations, afterAdd: slideDown, beforeRemove: slideUp }">
         <li>
-            <button data-bind="visible: user.id() !== $parent.selectedUser().id(), click: $parent.joinNomination">Join</button>
+            <div class="pull-right">
+                <!-- ko foreach: votes -->
+                <i class="fa fa-user"></i>
+                <!-- /ko -->
+
+                <i class="fa fa-user"></i>
+                <button data-bind="visible: user.id() !== $parent.selectedUser().id(), click: $parent.joinNomination">Join</button>
+                <button class='danger' data-bind="visible: user.id() === $parent.selectedUser().id(), click: $parent.destroyNomination">Delete</button>
+            </div>
+
             <h5 data-bind="text: name"></h5>
             <h6>suggested by <span data-bind="text: user.name()"></span></h6>
             <h7 data-bind="text: address"></h7>
-            <i data-bind="visible: user.id() === $parent.selectedUser().id(), click: $parent.destroyNomination" class="fa fa-trash-o"></i>
 
-            <ol data-bind="foreach: votes">
-                <li data-bind="text: user"></li>
-            </ol>
+
+
         </li>
     </ol>
 

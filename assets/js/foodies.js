@@ -1,6 +1,6 @@
 $(function () {
     $.notify.defaults({
-        globalPosition: 'top center'
+        globalPosition: 'top left'
     });
 
     ko.router.map([
@@ -18,7 +18,7 @@ $(function () {
         message: '<div class="loader"></div> Initializing flux capacitor'
     });
 
-    io.socket.on('connect', function(){
+    io.socket.on('connect', function () {
         $.unblockUI();
     });
 });
@@ -117,8 +117,18 @@ Foodies.Map = function () {
         });
     };
 
-    io.socket.on('vote', function(message){
-       //console.log(message);
+    self.slideDown = function (element) {
+        $(element).hide().slideDown('fast');
+    };
+
+    self.slideUp = function (element) {
+        $(element).slideUp('fast', function(){
+            $(elem).remove();
+        });
+    };
+
+    io.socket.on('vote', function (message) {
+        //console.log(message);
     });
 
 // private methods
