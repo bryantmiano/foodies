@@ -13,6 +13,10 @@ $(function () {
     ko.applyBindings(viewModel);
 
     ko.router.init();
+
+    io.socket.on('connect', function(){
+        console.log('connected yo!');
+    });
 });
 
 var socket = io.socket;
