@@ -60,12 +60,16 @@
             socketUrl = '/' + options.model;
         }
 
+        if (!options.hasOwnProperty('mappingOptions')) {
+            options.mappingOptions = {};
+        }
+
         socket.get(socketUrl, function (data) {
             if (!data instanceof Array) {
                 throw "Response for socket url" + socketUrl + " did not return an array."
             }
 
-            ko.mapping.fromJS(data, {}, observableArray);
+            ko.mapping.fromJS(data, options.mappingOptions, observableArray);
 
             if (typeof callback == "function") callback(data);
         });
@@ -80,7 +84,7 @@
                 if (message.verb === 'created') {
                     var socketGetUrl = socketUrl + '/' + message.id;
                     $.get(socketGetUrl, function (data) {
-                        var createdObj = ko.mapping.fromJS(data);
+                        var createdObj = ko.mapping.fromJS(data, options.mappingOptions);
                         observableArray.push(createdObj);
                     });
 

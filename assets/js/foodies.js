@@ -27,8 +27,23 @@ var socket = io.socket;
 
 Foodies = {};
 
+Foodies.Nomination = function (data) {
+    var self = this;
+
+    console.log('omg');
+    ko.mapping.fromJS(data, {}, self);
+
+    self.text = 'test';
+};
+
 Foodies.Map = function () {
     var self = this;
+
+    var nominationMapping = {
+        create: function (options) {
+            return new Foodies.Nomination(options.data);
+        }
+    };
 
     // public properties
     self.keyword = ko.observable();
@@ -38,7 +53,7 @@ Foodies.Map = function () {
 
     self.users = ko.observableArray().socket({ model: 'user' });
 
-    self.nominations = ko.observableArray().socket({ model: 'nomination' });
+    self.nominations = ko.observableArray().socket({ model: 'nomination', mappingOptions: nominationMapping });
     self.sortedNominations = ko.computed(function () {
         var data = self.nominations().sort(function (l, r) {
             return Date.parse(l.createdAt()) < Date.parse(r.createdAt()) ? 1 : -1; // sort by createdAt date
@@ -97,13 +112,16 @@ Foodies.Map = function () {
     };
 
     self.joinNomination = function (nomination) {
+
+        console.log(ko.toJS(nomination));
+
         var newVote = {
             nomination: nomination.id(),
             user: self.selectedUser()
         };
 
         $.post('/vote/create', newVote, function (response) {
-            $.notify('You joined the party.', 'success');
+            $.notify('You joined the ' + nomination.name() + ' party.', 'success');
         });
     };
 
@@ -123,7 +141,7 @@ Foodies.Map = function () {
 
     self.slideUp = function (element) {
         $(element).slideUp('fast', function () {
-            $(elem).remove();
+            $(element).remove();
         });
     };
 
