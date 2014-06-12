@@ -39,7 +39,7 @@ module.exports.session = {
   host: 'barreleye.redistogo.com',
   port: 9249,
   //ttl: <redis session TTL in seconds>,
-  //db: 0,
+  db: 1,
   pass: process.env.REDIS_PASSWORD,
   prefix: 'redistogo:'
   //url: "redis://redistogo:7aa916a6e543074009f7baddd93778e5@barreleye.redistogo.com:9249"
