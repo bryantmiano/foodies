@@ -9,8 +9,12 @@
 module.exports = {
 
   attributes: {
-  	nominationId: 'string',
-    userId: 'string'
+  	nomination: {
+        model: 'nomination'
+    },
+    user: {
+        model: 'user'
+    }
   }
 
 };

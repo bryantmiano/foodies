@@ -35,6 +35,10 @@ module.exports = {
         imageUrl: {
             type: 'string',
             required: false
+        },
+        votes: {
+            collection: 'vote',
+            via: 'nomination'
         }
     }
 

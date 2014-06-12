@@ -73,8 +73,8 @@
         if (options.hasOwnProperty('model')) {
             socket.on(options.model, function (message) {
 
-                console.log('New comet message: ');
-                console.log(message);
+                //console.log('New comet message: ');
+                //console.log(message);
 
                 // handle created event
                 if (message.verb === 'created') {

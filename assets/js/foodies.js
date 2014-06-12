@@ -88,17 +88,32 @@ Foodies.Map = function () {
         });
     };
 
+    self.joinNomination = function (nomination) {
+        var newVote = {
+            nomination: nomination.id(),
+            user: self.selectedUser()
+        };
+
+        $.post('/vote/create', newVote, function (response) {
+            console.log(response);
+        });
+    };
+
     self.destroyNomination = function (nomination) {
         $.ajax({
             url: '/nomination/destroy/' + nomination.id(),
             type: 'DELETE',
-            success: function(result) {
+            success: function (result) {
                 $.notify('Deleted.', 'success');
             }
         });
     };
 
-    // private methods
+    io.socket.on('vote', function(message){
+       //console.log(message);
+    });
+
+// private methods
     function initMap() {
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -263,6 +278,7 @@ Foodies.Map = function () {
     }
 
 
-    // init on load
+// init on load
     google.maps.event.addDomListener(window, 'load', initialize);
-};
+}
+;
