@@ -36,7 +36,7 @@ module.exports.connections = {
         port: 10022,
         user: 'foodiesAdmin',
         password: 'imobile3foodies',
-        database: 'app26279989 '
+        database: 'app26279989'
     }
 
     // More adapters:

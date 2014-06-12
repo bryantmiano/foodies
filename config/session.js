@@ -48,7 +48,7 @@ module.exports.session = {
   adapter: 'mongo',
   host: 'kahana.mongohq.com',
   port: 10022,
-  db: 'imobile3foodies',
+  db: 'app26279989',
   collection: 'sessions'
 
 
