@@ -26,7 +26,7 @@ Foodies.Map = function () {
     self.keyword = ko.observable();
     self.selectedPlace = ko.observable();
     self.selectedDetailedPlace = ko.observable();
-    self.selectedUser = ko.observable().socket({ url: '/user/getLoggedInUser'});
+    self.selectedUser = ko.observable();
 
     self.users = ko.observableArray().socket({ model: 'user' });
 
