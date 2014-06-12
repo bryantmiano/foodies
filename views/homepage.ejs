@@ -12,7 +12,8 @@
     </form>
 
 
-    <ol id="nominations-container" class="nominations" data-bind="foreach: { data: sortedNominations, afterAdd: slideDown, beforeRemove: slideUp }">
+    <ol id="nominations-container" class="nominations"
+        data-bind="foreach: { data: sortedNominations, afterAdd: slideDown, beforeRemove: slideUp }">
         <li>
             <div class="pull-right">
                 <!-- ko foreach: votes -->
@@ -20,15 +21,21 @@
                 <!-- /ko -->
 
                 <i class="fa fa-user"></i>
-                <button data-bind="visible: user.id() !== $parent.selectedUser().id(), click: $parent.joinNomination">Join</button>
-                <button class='danger' data-bind="visible: user.id() === $parent.selectedUser().id(), click: $parent.destroyNomination">Delete</button>
+
+                <button data-bind="visible: !isSelectedUserCreator() && !isSelectedUserJoined(), click: $parent.joinNomination">
+                    Join
+                </button>
+                <button data-bind="visible: !isSelectedUserCreator() && isSelectedUserJoined(), click: $parent.leaveNomination">
+                    Leave
+                </button>
+                <button class='danger' data-bind="visible: isSelectedUserCreator, click: $parent.destroyNomination">
+                    Delete
+                </button>
             </div>
 
             <h5 data-bind="text: name"></h5>
             <h6>suggested by <span data-bind="text: user.name()"></span></h6>
             <h7 data-bind="text: address"></h7>
-
-
 
         </li>
     </ol>
@@ -44,6 +51,7 @@
             <h6 data-bind="visible: formatted_website">
                 <a data-bind="attr: { href: formatted_website }, text: formatted_website"></a>
             </h6>
+
             <div id="reviews">
                 <b data-bind="text: rating"></b>/5
                 (<span data-bind="text: user_ratings_total"></span> reviews)
@@ -73,7 +81,6 @@
         <img data-bind="attr: { src: imageUrl }">
     </div>
 </div>
-
 
 
 <pre data-bind="text: ko.toJSON($data.sortedNominations, null, 2)"></pre>

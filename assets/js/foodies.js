@@ -30,10 +30,19 @@ Foodies = {};
 Foodies.Nomination = function (data) {
     var self = this;
 
-    console.log('omg');
     ko.mapping.fromJS(data, {}, self);
 
-    self.text = 'test';
+    self.isSelectedUserCreator = ko.computed(function(){
+        return self.user.id() === self.selectedUser.id();
+    });
+
+    self.isSelectedUserJoined = ko.computed(function(){
+        var isFound = false;
+        ko.utils.arrayForEach(self.votes(), function(vote){
+            if (vote.user() === self.selectedUser.id()) isFound = true;
+        });
+        return isFound;
+    });
 };
 
 Foodies.Map = function () {
@@ -41,6 +50,8 @@ Foodies.Map = function () {
 
     var nominationMapping = {
         create: function (options) {
+            options.data.selectedUser = ko.toJS(self.selectedUser());
+
             return new Foodies.Nomination(options.data);
         }
     };
@@ -113,8 +124,6 @@ Foodies.Map = function () {
 
     self.joinNomination = function (nomination) {
 
-        console.log(ko.toJS(nomination));
-
         var newVote = {
             nomination: nomination.id(),
             user: self.selectedUser()
@@ -123,6 +132,23 @@ Foodies.Map = function () {
         $.post('/vote/create', newVote, function (response) {
             $.notify('You joined the ' + nomination.name() + ' party.', 'success');
         });
+    };
+
+    self.leaveNomination = function(nomination){
+
+        var vote = ko.utils.arrayFirst(nomination.votes(), function (vote) {
+            return vote.user() === self.selectedUser().id();
+        });
+
+        if (vote){
+            $.ajax({
+                url: '/vote/destroy/' + vote.id(),
+                type: 'DELETE',
+                success: function (result) {
+                    $.notify('You left the ' + nomination.name() + ' party.  :(', 'success');
+                }
+            });
+        }
     };
 
     self.destroyNomination = function (nomination) {
@@ -146,24 +172,30 @@ Foodies.Map = function () {
     };
 
     io.socket.on('vote', function (message) {
+        var nominationId;
 
+        // when a new vote is created or destroyed, get the updated nomination
         if (message.verb === 'created') {
-            var nominationId = message.data.nomination;
+            nominationId = message.data.nomination;
 
-            io.socket.get('/nomination/' + nominationId, function (data) {
-                var updatedNomination = ko.mapping.fromJS(data);
 
-                var oldNomination = ko.utils.arrayFirst(self.nominations(), function (nomination) {
-                    return nomination.id() === data.id;
-                });
-
-                self.nominations.replace(oldNomination, updatedNomination);
-            });
+        } else if (message.verb === 'destroyed') {
+            nominationId = message.previous.nomination.id;
         }
+
+        io.socket.get('/nomination/' + nominationId, function (data) {
+            var updatedNomination = ko.mapping.fromJS(data, nominationMapping);
+
+            var oldNomination = ko.utils.arrayFirst(self.nominations(), function (nomination) {
+                return nomination.id() === data.id;
+            });
+
+            self.nominations.replace(oldNomination, updatedNomination);
+        });
 
     });
 
-// private methods
+    // private methods
     function initMap() {
 
         map = new google.maps.Map(document.getElementById('map'), {
