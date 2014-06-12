@@ -46,9 +46,9 @@ module.exports.session = {
 
   // Uncomment the following lines to use your Mongo adapter as a session store
   adapter: 'mongo',
-  host: 'localhost',
-  port: 27017,
-  db: 'foodies',
+  host: 'ds035358.mongolab.com ',
+  port: 35358,
+  db: 'heroku_app26279989',
   collection: 'sessions'
 
   //
