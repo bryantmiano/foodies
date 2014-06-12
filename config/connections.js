@@ -32,7 +32,7 @@ module.exports.connections = {
 
     mongo: {
         module: 'sails-mongo',
-        url: "mongodb://" + process.env.dbuser + ":" + process.env.dbpassword + "@ds035358.mongolab.com:35358/heroku_app26279989"
+        url: "mongodb://" + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@ds035358.mongolab.com:35358/heroku_app26279989"
     }
 
     // More adapters:
