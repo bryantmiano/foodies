@@ -14,53 +14,55 @@
 
 module.exports.session = {
 
-  // Session secret is automatically generated when your new app is created
-  // Replace at your own risk in production-- you will invalidate the cookies of your users,
-  // forcing them to log in again.
-  secret: '0f835e099a8422e9ae6101a52d6bbde7',
+    // Session secret is automatically generated when your new app is created
+    // Replace at your own risk in production-- you will invalidate the cookies of your users,
+    // forcing them to log in again.
+    secret: '0f835e099a8422e9ae6101a52d6bbde7',
 
 
-  // Set the session cookie expire time
-  // The maxAge is set by milliseconds, the example below is for 24 hours
-  //
-  // cookie: {
-  //   maxAge: 24 * 60 * 60 * 1000
-  // }
+    // Set the session cookie expire time
+    // The maxAge is set by milliseconds, the example below is for 24 hours
+    //
+    // cookie: {
+    //   maxAge: 24 * 60 * 60 * 1000
+    // }
 
 
-  // In production, uncomment the following lines to set up a shared redis session store
-  // that can be shared across multiple Sails.js servers
-  // adapter: 'redis',
-  //
-  // The following values are optional, if no options are set a redis instance running
-  // on localhost is expected.
-  // Read more about options at: https://github.com/visionmedia/connect-redis
-  //
-  // host: 'localhost',
-  // port: 6379,
-  // ttl: <redis session TTL in seconds>,
-  // db: 0,
-  // pass: <redis auth password>
-  // prefix: 'sess:'
+    /*
+    // In production, uncomment the following lines to set up a shared redis session store
+    // that can be shared across multiple Sails.js servers
+    adapter: 'redis',
+    //
+    // The following values are optional, if no options are set a redis instance running
+    // on localhost is expected.
+    // Read more about options at: https://github.com/visionmedia/connect-redis
+    //
+    host: 'barreleye.redistogo.com',
+    port: 9249,
+    // ttl: <redis session TTL in seconds>,
+    db: 'barreleye-9249',
+    pass: process.env.REDIS_PASSWORD,
+    prefix: 'redistogo:'
 
 
-  // Uncomment the following lines to use your Mongo adapter as a session store
-  adapter: 'mongo',
-  host: 'localhost',
-  port: 27017,
-  db: 'foodies',
-  collection: 'sessions'
+*/
+    // Uncomment the following lines to use your Mongo adapter as a session store
 
-  //
-  // Optional Values:
-  //
-  // # Note: url will override other connection settings
-  // url: 'mongodb://user:pass@host:port/database/collection',
-  //
-  // username: '',
-  // password: '',
-  // auto_reconnect: false,
-  // ssl: false,
-  // stringify: true
+    adapter: 'mongo',
+    url: process.env.MONGOLAB_URI,
+    db: 'foodies',
+    collection: 'sessions'
+
+    //
+    // Optional Values:
+    //
+    // # Note: url will override other connection settings
+    // url: 'mongodb://user:pass@host:port/database/collection',
+    //
+    // username: '',
+    // password: '',
+    // auto_reconnect: false,
+    // ssl: false,
+    // stringify: true
 
 };

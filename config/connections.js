@@ -32,11 +32,7 @@ module.exports.connections = {
 
     mongo: {
         module: 'sails-mongo',
-        host: 'localhost',
-        port: 27017,
-        user: 'foodiesAdmin',
-        password: 'imobile3',
-        database: 'foodies'
+        url: process.env.MONGOLAB_URI
     }
 
     // More adapters:
