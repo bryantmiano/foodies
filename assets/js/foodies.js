@@ -103,7 +103,7 @@ Foodies.Map = function () {
         };
 
         $.post('/vote/create', newVote, function (response) {
-            console.log(response);
+            $.notify('You joined the party.', 'success');
         });
     };
 
@@ -122,13 +122,27 @@ Foodies.Map = function () {
     };
 
     self.slideUp = function (element) {
-        $(element).slideUp('fast', function(){
+        $(element).slideUp('fast', function () {
             $(elem).remove();
         });
     };
 
     io.socket.on('vote', function (message) {
-        //console.log(message);
+
+        if (message.verb === 'created') {
+            var nominationId = message.data.nomination;
+
+            io.socket.get('/nomination/' + nominationId, function (data) {
+                var updatedNomination = ko.mapping.fromJS(data);
+
+                var oldNomination = ko.utils.arrayFirst(self.nominations(), function (nomination) {
+                    return nomination.id() === data.id;
+                });
+
+                self.nominations.replace(oldNomination, updatedNomination);
+            });
+        }
+
     });
 
 // private methods

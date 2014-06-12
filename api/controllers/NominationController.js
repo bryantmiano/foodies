@@ -22,6 +22,4 @@ module.exports = {
      * (specific to NominationController)
      */
     _config: {}
-
-
 };

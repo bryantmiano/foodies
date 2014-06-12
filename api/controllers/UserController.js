@@ -19,8 +19,6 @@ module.exports = {
     _config: {},
 
     login: function (req, res) {
-        console.log(req.allParams());
-
         var userId = req.param('id');
 
         if(!userId) {
