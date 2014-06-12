@@ -49,8 +49,8 @@ module.exports.session = {
   host: 'kahana.mongohq.com',
   port: 10022,
   db: 'app26279989',
-  collection: 'sessions'
-
+  collection: 'sessions',
+  auto_reconnect: true
 
   //
   // Optional Values:
