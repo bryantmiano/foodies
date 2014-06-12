@@ -36,13 +36,13 @@ module.exports.session = {
   // on localhost is expected.
   // Read more about options at: https://github.com/visionmedia/connect-redis
   //
-  //host: 'barreleye.redistogo.com',
-  //port: 9249,
+  host: 'barreleye.redistogo.com',
+  port: 9249,
   //ttl: <redis session TTL in seconds>,
   //db: 0,
-  //pass:,
-  //prefix: 'redistogo:',
-  url: "redis://redistogo:"+  process.env.REDIS_PASSWORD + "@barreleye.redistogo.com:9249/"
+  pass: process.env.REDIS_PASSWORD,
+  prefix: 'redistogo:'
+  //url: "redis://redistogo:7aa916a6e543074009f7baddd93778e5@barreleye.redistogo.com:9249"
 
   //
   // Optional Values:

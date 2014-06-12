@@ -34,8 +34,8 @@ module.exports.connections = {
         module: 'sails-mongo',
         host: 'kahana.mongohq.com',
         port: 10022,
-        user: 'foodiesAdmin',
-        password: 'imobile3foodies',
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
         database: 'app26279989'
     }
 
