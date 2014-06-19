@@ -109,6 +109,9 @@ Foodies.Map = function () {
     };
 
     self.selectNomination = function(nomination){
+        clearMarkers();
+        clearPlaces();
+
         getPlaceDetails(nomination.reference(), function(){
             var place = self.selectedDetailedPlace();
 
@@ -124,10 +127,11 @@ Foodies.Map = function () {
 
             map.panTo(location);
         });
+
+        console.log(ko.toJS(nomination));
     };
 
     self.nominatePlace = function (place) {
-        console.log(place);
         var newNomination = {
             name: place.name(),
             latitude: place.geometry.location.lat()(),
@@ -248,6 +252,9 @@ Foodies.Map = function () {
     function placeSearch(keyword) {
         if (!keyword) return;
 
+        self.selectedPlace(null);
+        self.selectedDetailedPlace(null);
+
         clearMarkers();
         clearPlaces();
 
@@ -335,7 +342,6 @@ Foodies.Map = function () {
     }
 
     function createMarkerForPlace(place) {
-        console.log(place);
 
         var markers = self.markers,
             infoWindows = self.infoWindows;

@@ -41,8 +41,7 @@ module.exports = {
             via: 'nomination'
         },
         reference: {
-            type: 'string',
-            required: true
+            type: 'string'
         }
     }
 
