@@ -39,6 +39,10 @@ module.exports = {
         votes: {
             collection: 'vote',
             via: 'nomination'
+        },
+        reference: {
+            type: 'string',
+            required: true
         }
     }
 

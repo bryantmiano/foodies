@@ -33,7 +33,7 @@
                 </button>
             </div>
 
-            <h5 data-bind="text: name"></h5>
+            <h5 data-bind="click: $parent.selectNomination"><a href="#" data-bind="text: name"></a></h5>
             <h6>suggested by <span data-bind="text: user.name()"></span></h6>
             <h7 data-bind="text: address"></h7>
 

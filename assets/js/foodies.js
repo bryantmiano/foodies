@@ -108,13 +108,33 @@ Foodies.Map = function () {
         });
     };
 
+    self.selectNomination = function(nomination){
+        getPlaceDetails(nomination.reference(), function(){
+            var place = self.selectedDetailedPlace();
+
+            var location = new google.maps.LatLng(place.geometry.location.lat()(), place.geometry.location.lng()());
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: location,
+                name: place.name
+            });
+
+            self.markers.push(marker);
+
+            map.panTo(location);
+        });
+    };
+
     self.nominatePlace = function (place) {
+        console.log(place);
         var newNomination = {
             name: place.name(),
             latitude: place.geometry.location.lat()(),
             longitude: place.geometry.location.lng()(),
             address: place.formatted_address(),
-            user: self.selectedUser()
+            user: self.selectedUser(),
+            reference: place.reference()
         };
 
         $.post('/nomination/create', newNomination, function (response) {
@@ -256,7 +276,7 @@ Foodies.Map = function () {
         }
     }
 
-    function getPlaceDetails(reference) {
+    function getPlaceDetails(reference, outerCallback) {
         var request = {
             reference: reference
         };
@@ -267,6 +287,8 @@ Foodies.Map = function () {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 var model = createModelForPlace(place);
                 self.selectedDetailedPlace(model);
+
+                if (outerCallback) outerCallback();
             }
         }
     }
@@ -313,6 +335,8 @@ Foodies.Map = function () {
     }
 
     function createMarkerForPlace(place) {
+        console.log(place);
+
         var markers = self.markers,
             infoWindows = self.infoWindows;
 
