@@ -24,7 +24,7 @@
     "moment": "^2.6.0",
     "node-passmarket": "git+https://github.com/imobile3/node-passmarket.git",
     "rc": "~0.3.3",
-    "sails": "~0.10.0-rc7",
+    "sails": "^0.10.0-rc8",
     "sails-disk": "~0.10.0",
     "sails-mongo": "^0.10.0-rc5"
   },

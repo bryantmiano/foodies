@@ -58,6 +58,8 @@ Foodies.Map = function () {
 
     // public properties
     self.keyword = ko.observable();
+
+    self.selectedNomination = ko.observable();
     self.selectedPlace = ko.observable();
     self.selectedDetailedPlace = ko.observable();
     self.selectedUser = ko.observable().socket({ url: '/user/getLoggedInUser'});
@@ -126,6 +128,7 @@ Foodies.Map = function () {
             self.markers.push(marker);
 
             map.panTo(location);
+            map.setZoom(14);
         });
 
         console.log(ko.toJS(nomination));

@@ -17,6 +17,40 @@
 
 module.exports = {
 
+    users: function (req, res) {
+        var nominationId = req.param('id');
+
+        if (!nominationId) {
+            res.status(400);
+            res.json('Nomination id is required');
+        }
+        /*
+
+        var nominationVotes;
+        var users = [];
+
+        Vote.find({ nomination: nominationId }).exec(function (err, votes) {
+            nominationVotes = votes;
+
+            for (var vote in nominationVotes) {
+                console.log(vote);
+
+                User.findOne({ id: vote.user }).exec(function(err, user) {
+                    //console.log(user);
+                    users.push(user);
+                });
+            }
+            //console.log(users);
+            res.json(users);
+        });
+
+        */
+
+        Vote.find({ nomination: nominationId }).populate('user').exec(function(e, r){
+           res.json(r);
+        });
+    },
+
     /**
      * Overrides for the settings in `config/controllers.js`
      * (specific to NominationController)
