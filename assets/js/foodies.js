@@ -62,6 +62,7 @@ Foodies.Map = function () {
     self.selectedNomination = ko.observable();
     self.selectedPlace = ko.observable();
     self.selectedDetailedPlace = ko.observable();
+    self.selectedPlaceVotes = ko.observable();
     self.selectedUser = ko.observable().socket({ url: '/user/getLoggedInUser'});
 
     self.users = ko.observableArray().socket({ model: 'user' });
@@ -114,6 +115,10 @@ Foodies.Map = function () {
         clearMarkers();
         clearPlaces();
 
+        console.log(nomination);
+
+        self.selectedNomination(nomination);
+
         getPlaceDetails(nomination.reference(), function(){
             var place = self.selectedDetailedPlace();
 
@@ -129,9 +134,16 @@ Foodies.Map = function () {
 
             map.panTo(location);
             map.setZoom(14);
+
+            $.get('/nomination/votes', { id: nomination.id() }, function(votes){
+                console.log(votes);
+
+                var mappedVotes = ko.mapping.fromJS(votes, {}, self.selectedPlaceVotes);
+                //self.selectedPlaceVotes(mappedVotes);
+
+            });
         });
 
-        console.log(ko.toJS(nomination));
     };
 
     self.nominatePlace = function (place) {

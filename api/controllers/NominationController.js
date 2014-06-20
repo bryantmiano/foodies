@@ -17,7 +17,7 @@
 
 module.exports = {
 
-    users: function (req, res) {
+    votes: function (req, res) {
         var nominationId = req.param('id');
 
         if (!nominationId) {

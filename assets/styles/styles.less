@@ -18,9 +18,13 @@ html, body, map {
 
 body {
   background: white;
-  font-family: 'PT Sans Caption', sans-serif;
+  font-family: 'Arimo', sans-serif;
   font-size: 14px;
   line-height: 16px;
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+  font-family: 'Roboto Slab', serif;
 }
 
 h1 {
@@ -44,6 +48,7 @@ button {
   border-radius: 2px;
   border-bottom: 2px solid darken(@brand-primary, 10%);
   box-shadow: 1px 1px 1px rgb(167, 105, 64);
+  font-family: 'Arimo', sans-serif;
 
   i {
     margin-right: 5px;
@@ -270,6 +275,19 @@ a {
   }
 
   button {
-    margin: 40px 0;
+    margin: 10px 0;
+  }
+
+  .users-going {
+    list-style: none;
+    font-size: 12px;
+    overflow: hidden;
+    margin: 20px 0;
+    font-weight: bold;
+
+    li {
+      float: left;
+      margin-right: 5px;
+    }
   }
 }
