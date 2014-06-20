@@ -129,13 +129,14 @@
                 top:		'20%',
                 left:		'41%',
                 textAlign:	'center',
-                color:		'white',
+                color:		'rgb(77, 77, 77)',
                 border:		'none',
-                backgroundColor:'rgba(0, 0, 0, 0.37)',
+                backgroundColor:'white',
                 fontWeight: 'bold',
                 textTransform: 'uppercase',
                 cursor:		'wait',
-                borderRadius: '65px',
+                borderRadius: '5px',
+                boxShadow: '1px 1px 11px black'
             },
 
             // minimal style set used when themes are used
@@ -148,7 +149,7 @@
             // styles for the overlay
             overlayCSS:  {
                 backgroundColor:	'#000',
-                opacity:			0.6,
+                opacity:			0.1,
                 cursor:				'wait'
             },
 

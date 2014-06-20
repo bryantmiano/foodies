@@ -15,7 +15,7 @@ $(function () {
     ko.router.init();
 
     $.blockUI({
-        message: '<div class="loader"></div> Initializing flux capacitor'
+        message: '<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div> Initializing flux capacitor',
     });
 
     io.socket.on('connect', function () {
