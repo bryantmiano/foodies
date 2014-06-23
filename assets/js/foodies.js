@@ -188,6 +188,7 @@ Foodies.Map = function () {
                 type: 'DELETE',
                 success: function (result) {
                     $.notify('You left the ' + nomination.name() + ' party.  :(', 'success');
+                    self.selectNomination(nomination);
                 }
             });
         }
@@ -233,8 +234,6 @@ Foodies.Map = function () {
             });
 
             self.nominations.replace(oldNomination, updatedNomination);
-
-            
         });
 
     });

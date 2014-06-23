@@ -10,7 +10,7 @@
 
     <ol id="nominations-container" class="nominations"
         data-bind="foreach: { data: sortedNominations, afterAdd: slideDown, beforeRemove: slideUp }">
-        <li>
+        <li data-bind=" css: { selected: $parent.selectedNomination() === $data }">
             <i class="fa fa-cutlery pull-left"></i>
 
             <div class="pull-right">
