@@ -10,10 +10,7 @@ $(function () {
     ]);
 
     var viewModel = new Foodies.Map();
-    viewModel.router = ko.router.vm;
     ko.applyBindings(viewModel);
-
-    ko.router.init();
 
     $.blockUI({
         message: '<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div> Initializing flux capacitor',
@@ -239,7 +236,8 @@ Foodies.Map = function () {
 
         map = new google.maps.Map(document.getElementById('map'), {
             center: im3,
-            zoom: 16
+            zoom: 16,
+            mapTypeControl: false
         });
 
         // put custom marker where im3 is

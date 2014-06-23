@@ -13,7 +13,7 @@
 html, body, map {
   height: 100%;
   margin: 0px;
-  padding: 0px
+  padding: 0px;
 }
 
 body {
@@ -21,6 +21,7 @@ body {
   font-family: 'Arimo', sans-serif;
   font-size: 14px;
   line-height: 16px;
+  background: url('/images/pw_pattern.png');
 }
 
 h1, h2, h3, h4, h5, h6, h7 {
@@ -205,6 +206,12 @@ a {
   }
 }
 
+#login-container {
+  min-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 #foodies-container {
   padding: 10px;
   min-width: 1200px;
@@ -273,10 +280,12 @@ a {
 
   h3 {
     font-size: 23px;
+    line-height: 25px;
   }
 
   h5 {
     font-size: 12px;
+    line-height: 14px;
     font-weight: normal;
     color: gray;
     margin: 10px 0 20px 0;
@@ -319,11 +328,12 @@ a {
 #no-place-selected {
   text-align: center;
   font-weight: bold;
-  color: rgb(162, 162, 162);
+  color: rgb(201, 201, 201);
   margin-top: 140px;
+  text-shadow: -1px -1px 1px rgb(150, 150, 150);
 
   i {
-    font-size: 50px;
+    font-size: 100px;
     display: block;
   }
 }
