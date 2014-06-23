@@ -1,4 +1,5 @@
 $(function () {
+
     $.notify.defaults({
         globalPosition: 'top left'
     });
@@ -59,6 +60,7 @@ Foodies.Map = function () {
     // public properties
     self.keyword = ko.observable();
     self.isEatBtnVisible = ko.observable(true);
+    self.today = ko.observable(moment().format('dddd, MMM Do'));
 
     self.selectedNomination = ko.observable();
     self.selectedPlace = ko.observable();
@@ -170,6 +172,7 @@ Foodies.Map = function () {
 
         $.post('/vote/create', newVote, function (response) {
             $.notify('You joined the ' + nomination.name() + ' party.', 'success');
+            self.selectNomination(nomination);
         });
     };
 
@@ -230,6 +233,8 @@ Foodies.Map = function () {
             });
 
             self.nominations.replace(oldNomination, updatedNomination);
+
+            
         });
 
     });

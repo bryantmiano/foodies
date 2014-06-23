@@ -6,10 +6,13 @@
         <span data-bind="with: selectedUser"><span data-bind="text: name"></span></span>
     </div>
 
+    <h1>Lunch for <span data-bind="text: today"></span></h1>
+
     <ol id="nominations-container" class="nominations"
         data-bind="foreach: { data: sortedNominations, afterAdd: slideDown, beforeRemove: slideUp }">
         <li>
             <i class="fa fa-cutlery pull-left"></i>
+
             <div class="pull-right">
                 <!-- ko foreach: votes -->
                 <i class="fa fa-user"></i>
@@ -45,24 +48,34 @@
 
         <div id="map"></div>
 
-        <div id="place-preview" data-bind="with: selectedDetailedPlace">
-            <h3 data-bind="text: name"></h3>
-            <h5 data-bind="text: formatted_address"></h5>
-            <h6 data-bind="text: formatted_phone_number"></h6>
-            <h6 data-bind="visible: formatted_website">
-                <a data-bind="attr: { href: formatted_website }, text: formatted_website"></a>
-            </h6>
+        <div id="place-preview">
+            <div data-bind="with: selectedDetailedPlace">
+                <h3 data-bind="text: name"></h3>
+                <h5 data-bind="text: formatted_address"></h5>
+                <h6 data-bind="text: formatted_phone_number"></h6>
+                <h6 data-bind="visible: formatted_website">
+                    <a data-bind="attr: { href: formatted_website }, text: formatted_website"></a>
+                </h6>
 
-            <button data-bind="visible: $root.isEatBtnVisible, click: $root.nominatePlace, attr: { 'data-id': id }">
-                <i class="fa fa-cutlery"></i>I want to eat here
-            </button>
+                <button data-bind="visible: $root.isEatBtnVisible, click: $root.nominatePlace, attr: { 'data-id': id }">
+                    <i class="fa fa-cutlery"></i>I want to eat here
+                </button>
 
-            <ol class="users-going">
-                <!-- ko foreach: $root.selectedPlaceVotes -->
-                <li><i class="fa fa-user"></i><span data-bind="text: user.name"></span>, </li>
-                <!-- /ko -->
-                <li><i class="fa fa-user"></i><span data-bind="text: $root.selectedNomination().user.name()"></span> is going</li>
-            </ol>
+                <ol class="users-going">
+                    <!-- ko foreach: $root.selectedPlaceVotes -->
+                    <li><i class="fa fa-user"></i><span data-bind="text: user.name"></span>,</li>
+                    <!-- /ko -->
+                    <li><i class="fa fa-user"></i><span data-bind="text: $root.selectedNomination().user.name()"></span>
+                        is going
+                    </li>
+                </ol>
+            </div>
+
+            <div id="no-place-selected" data-bind="visible: !selectedDetailedPlace()">
+                <i class="fa fa-globe"></i>
+                Search for some food
+            </div>
+
 
         </div>
     </section>
@@ -87,5 +100,3 @@
     </div>
 </div>
 
-
-<pre data-bind="text: ko.toJSON(selectedNomination, null, 2)"></pre>
