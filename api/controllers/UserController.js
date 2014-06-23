@@ -18,6 +18,28 @@
 module.exports = {
     _config: {},
 
+    login: function(req, res){
+        var email = req.param('email');
+        var password = req.param('password');
+
+        User.findOneByEmail(email, function(err, user){
+            if (err) res.json({ error: 'DB error' }, 500);
+
+            if (user) {
+                if (user.password === password) {
+                    req.session.user = user;
+                    res.json(user);
+                } else {
+                    res.json({ error: 'Invalid password' }, 400);
+                }
+
+            } else {
+                res.json({ error: 'User not found' }, 404);
+            }
+        });
+    },
+
+    /*
     login: function (req, res) {
         var userId = req.param('id');
 
@@ -27,10 +49,12 @@ module.exports = {
         }
 
         User.findOne({ id: userId }, function (err, user) {
-            req.session.user = user;
-            res.json(user);
+     req.session.user = user;
+     res.json(user);
         });
     },
+
+    */
 
     getLoggedInUser: function (req, res) {
         if (req.session.user) {

@@ -11,7 +11,6 @@ module.exports = {
     attributes: {
         name: {
             type: "string",
-            unique: true,
             required: true
         },
         email: {
@@ -21,7 +20,6 @@ module.exports = {
         },
         password: {
             type: "string",
-            unique: true,
             required: true
         }
     }

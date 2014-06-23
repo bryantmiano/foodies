@@ -30,10 +30,13 @@ $(function () {
         var form = $(this);
         e.preventDefault();
 
-        $.post('/user', form.serialize(), function(response){
-            form.find('button').notify('User was created.', {className: 'success', position: 'right'});
+        $.post('/user/login', form.serialize(), function(response){
+            form.find('button').notify('Login successful.', {className: 'success', position: 'right'});
+            window.location.href = '/dashboard';
         }).fail(function(response){
-            form.find('button').notify('Oops.  Something went totally wrong.', {position: 'right'});
+            var response = $.parseJSON(response.responseText);
+            console.log(response);
+            form.find('button').notify(response.error, {position: 'right'});
         });
     });
 });
