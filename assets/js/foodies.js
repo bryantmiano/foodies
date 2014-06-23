@@ -138,11 +138,7 @@ Foodies.Map = function () {
             map.setZoom(14);
 
             $.get('/nomination/votes', { id: nomination.id() }, function(votes){
-                console.log(votes);
-
                 var mappedVotes = ko.mapping.fromJS(votes, {}, self.selectedPlaceVotes);
-                //self.selectedPlaceVotes(mappedVotes);
-
             });
         });
 
@@ -333,7 +329,6 @@ Foodies.Map = function () {
     }
 
     function createModelForPlace(place) {
-        //console.log(place);
         var place = ko.mapping.fromJS(place);
 
         place.imageUrl = ko.computed(function () {

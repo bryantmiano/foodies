@@ -61,7 +61,7 @@
                     <i class="fa fa-cutlery"></i>I want to eat here
                 </button>
 
-                <ol class="users-going">
+                <ol data-bind="with: $root.selectedNomination" class="users-going">
                     <!-- ko foreach: $root.selectedPlaceVotes -->
                     <li><i class="fa fa-user"></i><span data-bind="text: user.name"></span>,</li>
                     <!-- /ko -->
