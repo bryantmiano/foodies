@@ -58,6 +58,7 @@ Foodies.Map = function () {
 
     // public properties
     self.keyword = ko.observable();
+    self.isEatBtnVisible = ko.observable(true);
 
     self.selectedNomination = ko.observable();
     self.selectedPlace = ko.observable();
@@ -115,8 +116,7 @@ Foodies.Map = function () {
         clearMarkers();
         clearPlaces();
 
-        console.log(nomination);
-
+        self.isEatBtnVisible(false);
         self.selectedNomination(nomination);
 
         getPlaceDetails(nomination.reference(), function(){
@@ -269,6 +269,7 @@ Foodies.Map = function () {
 
         self.selectedPlace(null);
         self.selectedDetailedPlace(null);
+        self.isEatBtnVisible(true);
 
         clearMarkers();
         clearPlaces();
