@@ -39,6 +39,20 @@ $(function () {
             form.find('button').notify(response.error, {position: 'right'});
         });
     });
+
+    var gifMe = function(){
+        $('#food-gif').fadeOut();
+        $.get('/gif', function(response){
+            console.log(response);
+            $('#food-gif').attr('src', response.data[0].images.fixed_height.url);
+            $('#food-gif').fadeIn();
+        });
+    };
+    gifMe();
+
+    $('#food-gif').click(function(){
+        gifMe();
+    });
 });
 
 var socket = io.socket;

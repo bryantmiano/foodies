@@ -13,6 +13,23 @@ module.exports = {
         return res.view();
     },
 
+    gif: function(req, res){
+        var giphy = require('giphy-wrapper')('dc6zaTOxFJmzC');
+
+        //random offset for random gif
+        var offset = Math.floor((Math.random() * 2000) + 1);
+
+
+        giphy.search('eating', 1, offset, function (err, data) {
+            if (err) {
+                // check error
+            }
+
+
+            return res.json(data);
+        });
+    },
+
     register: function(req, res){
         return res.view();
     },
