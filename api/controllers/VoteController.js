@@ -16,15 +16,15 @@
  */
 
 module.exports = {
-    
-  
 
 
-  /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to VoteController)
-   */
-  _config: {}
 
-  
+
+    /**
+     * Overrides for the settings in `config/controllers.js`
+     * (specific to VoteController)
+     */
+    _config: {}
+
+
 };
