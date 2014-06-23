@@ -13,6 +13,16 @@ module.exports = {
             type: "string",
             unique: true,
             required: true
+        },
+        email: {
+            type: "string",
+            unique: true,
+            required: true
+        },
+        password: {
+            type: "string",
+            unique: true,
+            required: true
         }
     }
 

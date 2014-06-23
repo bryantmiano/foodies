@@ -9,6 +9,40 @@ $(function () {
         { route: 'test', module: 'about', title: 'About Us', nav: true },
     ]);
 
+
+    if ($('#foodies-container').length > 0) {
+        Foodies.Init();
+    }
+
+    $('#register-form').submit(function(e){
+        var form = $(this);
+        e.preventDefault();
+
+        $.post('/user', form.serialize(), function(response){
+            form.find('button').notify('User was created.', {className: 'success', position: 'right'});
+            $('#return-to-login').slideDown('fast');
+        }).fail(function(response){
+            form.find('button').notify('Oops.  Something went totally wrong.', {position: 'right'});
+        });
+    });
+
+    $('#login-form').submit(function(e){
+        var form = $(this);
+        e.preventDefault();
+
+        $.post('/user', form.serialize(), function(response){
+            form.find('button').notify('User was created.', {className: 'success', position: 'right'});
+        }).fail(function(response){
+            form.find('button').notify('Oops.  Something went totally wrong.', {position: 'right'});
+        });
+    });
+});
+
+var socket = io.socket;
+
+Foodies = {};
+
+Foodies.Init = function(){
     var viewModel = new Foodies.Map();
     ko.applyBindings(viewModel);
 
@@ -19,11 +53,7 @@ $(function () {
     io.socket.on('connect', function () {
         $.unblockUI();
     });
-});
-
-var socket = io.socket;
-
-Foodies = {};
+};
 
 Foodies.Nomination = function (data) {
     var self = this;
