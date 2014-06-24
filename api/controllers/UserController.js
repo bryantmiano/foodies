@@ -19,6 +19,8 @@ module.exports = {
     _config: {},
 
     login: function(req, res){
+        var bcrypt = require('bcrypt');
+
         var email = req.param('email');
         var password = req.param('password');
 
@@ -26,12 +28,19 @@ module.exports = {
             if (err) res.json({ error: 'DB error' }, 500);
 
             if (user) {
-                if (user.password === password) {
-                    req.session.user = user;
-                    res.json(user);
-                } else {
-                    res.json({ error: 'Invalid password' }, 400);
-                }
+                bcrypt.compare(password, user.password, function (err, match) {
+                    if (err) res.json({ error: 'Server error' }, 500);
+
+                    if (match) {
+                        // password match
+                        req.session.user = user;
+                        res.json(user);
+                    } else {
+                        // invalid password
+                        res.json({ error: 'Invalid password' }, 400);
+                    }
+                });
+
 
             } else {
                 res.json({ error: 'User not found' }, 404);
