@@ -11,12 +11,14 @@ module.exports = {
     attributes: {
         name: {
             type: "string",
-            required: true
+            required: true,
+            maxLength: 40
         },
         email: {
             type: "string",
             unique: true,
-            required: true
+            required: true,
+            maxLength: 40
         },
         password: {
             type: "string",

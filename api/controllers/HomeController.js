@@ -35,6 +35,9 @@ module.exports = {
     },
 
     dashboard: function(req, res){
+        if (!req.session.user) {
+            res.redirect('/', 301);
+        }
         return res.view();
     },
 

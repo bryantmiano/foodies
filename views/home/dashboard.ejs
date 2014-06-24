@@ -83,14 +83,7 @@
 
 
 <div id="select-foodie" class="remodal" data-remodal-id="select-foodie">
-    <h1>Select A Foodie</h1>
-
-    <ol data-bind="foreach: users" class="user-list">
-        <li data-bind="click: $parent.selectUser">
-            <i class="fa fa-user"></i><span data-bind="text: name"></span>
-        </li>
-    </ol>
-
+    <a href="/user/logout">Logout</a>
 </div>
 
 <div id="infowindow-template" data-bind="with: selectedPlace" class="hide">
@@ -99,5 +92,9 @@
     </div>
 </div>
 
+
+<footer>
+    <img id="food-gif" src="" title="gif me!" alt="gif me!"/>
+</footer>
 
 

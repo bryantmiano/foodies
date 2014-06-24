@@ -39,6 +39,11 @@ module.exports = {
         });
     },
 
+    logout: function(req, res){
+        req.session.user = null;
+        res.redirect('/', 301);
+    },
+
     /*
     login: function (req, res) {
         var userId = req.param('id');
