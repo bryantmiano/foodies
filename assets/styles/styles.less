@@ -19,9 +19,25 @@ html, body, map {
 body {
   background: white;
   font-family: 'Arimo', sans-serif;
+  font-family: 'Arimo', sans-serif;
   font-size: 14px;
   line-height: 16px;
   background: url('/images/pw_pattern.png');
+
+  .notifyjs-bootstrap-success {
+    background: #5DB638;
+    border-color: #62AA25;
+    box-shadow: 0 2px 1px rgb(52, 114, 28);
+    font-size: 19px;
+    text-shadow: none;
+    color: white;
+    padding: 8px 24px 8px 14px;
+    line-height: 26px;
+  }
+
+  .notifyjs-container {
+    margin: 10px !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, h7 {
@@ -142,7 +158,7 @@ a {
 
 .nominations {
   list-style: none;
-  margin: 15px 0;
+  margin: 15px 15px 0 0;
   overflow: hidden;
 
   li {
@@ -263,11 +279,19 @@ a {
   display: inline-block;
 }
 
+#no-nominations {
+  background: rgb(224, 224, 224);
+  padding: 20px;
+  color: rgb(129, 129, 129);
+  margin-right: 70px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+}
+
 #map-container {
   display: inline-block;
   border-radius: 10px;
   margin: 20px 0;
-  border: 7px solid #D8D8D8;
+  border: 7px solid white;
   width: 50%;
   vertical-align: top;
   position: relative;

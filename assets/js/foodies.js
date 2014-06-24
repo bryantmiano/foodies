@@ -1,7 +1,7 @@
 $(function () {
 
     $.notify.defaults({
-        globalPosition: 'top left'
+        globalPosition: 'bottom left',
     });
 
     ko.router.map([
@@ -43,7 +43,6 @@ $(function () {
     var gifMe = function(){
         $('#food-gif').fadeOut();
         $.get('/gif', function(response){
-            console.log(response);
             $('#food-gif').attr('src', response.data[0].images.fixed_height.url);
             $('#food-gif').fadeIn();
         });
@@ -119,7 +118,14 @@ Foodies.Map = function () {
         var data = self.nominations().sort(function (l, r) {
             return Date.parse(l.createdAt()) < Date.parse(r.createdAt()) ? 1 : -1; // sort by createdAt date
         });
-        return data;
+
+        var todayOnly  = ko.utils.arrayFilter(data, function(nomination) {
+            var creationDate = moment(nomination.createdAt());
+            var today = moment().startOf('day');
+            return creationDate > today;
+        });
+
+        return todayOnly;
     });
 
     self.places = ko.observableArray();
@@ -161,6 +167,8 @@ Foodies.Map = function () {
     self.selectNomination = function(nomination){
         clearMarkers();
         clearPlaces();
+
+        console.log(ko.toJS(nomination));
 
         self.isEatBtnVisible(false);
         self.selectedNomination(nomination);
