@@ -76,17 +76,33 @@ Foodies.Nomination = function (data) {
 
     ko.mapping.fromJS(data, {}, self);
 
+    self.newCommentText = ko.observable();
+
     self.isSelectedUserCreator = ko.computed(function(){
+        if (!self.user) return false;
         return self.user.id() === self.selectedUser.id();
     });
 
     self.isSelectedUserJoined = ko.computed(function(){
         var isFound = false;
+        if (!self.user) return false;
         ko.utils.arrayForEach(self.votes(), function(vote){
             if (vote.user() === self.selectedUser.id()) isFound = true;
         });
         return isFound;
     });
+
+    self.submitComment = function(nomination) {
+        console.log(nomination);
+        var newComment = {
+            text: self.newCommentText(),
+            user: self.user.id(),
+            nomination: nomination.id()
+        };
+        $.post('/comment', newComment, function(data){
+            console.log(data);
+        });
+    }
 };
 
 Foodies.Map = function () {
@@ -462,3 +478,23 @@ Foodies.Map = function () {
     google.maps.event.addDomListener(window, 'load', initialize);
 }
 ;
+
+ko.bindingHandlers.enterkey = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var allBindings = allBindingsAccessor();
+
+        $(element).on('keypress', function (e) {
+            var keyCode = e.which || e.keyCode;
+            if (keyCode !== 13) {
+                return true;
+            }
+
+            var target = e.target;
+            target.blur();
+
+            allBindings.enterkey.call(viewModel, viewModel, target, element);
+
+            return false;
+        });
+    }
+};

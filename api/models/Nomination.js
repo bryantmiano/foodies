@@ -40,6 +40,10 @@ module.exports = {
             collection: 'vote',
             via: 'nomination'
         },
+        comments: {
+            collection: 'comment',
+            via: 'nomination'
+        },
         reference: {
             type: 'string'
         }
