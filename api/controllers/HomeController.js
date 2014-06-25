@@ -10,6 +10,10 @@ module.exports = {
     },
 
     login: function(req, res){
+        if (req.session.user) {
+            res.redirect('/dashboard', 301);
+        }
+
         return res.view();
     },
 

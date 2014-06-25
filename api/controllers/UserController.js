@@ -49,6 +49,8 @@ module.exports = {
     },
 
     logout: function(req, res){
+        req.session.destroy;
+        req.session = null;
         req.session.user = null;
         res.redirect('/', 301);
     },
