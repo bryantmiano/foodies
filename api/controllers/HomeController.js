@@ -1,8 +1,6 @@
 module.exports = {
 
     index: function (req, res) {
-        console.log(Nomination.find());
-
         return res.view({
             nominations: Nomination.find(),
             users: User.find()
@@ -10,11 +8,12 @@ module.exports = {
     },
 
     login: function(req, res){
-        if (req.session.user) {
-            res.redirect('/dashboard', 301);
-        }
-
         return res.view();
+    },
+
+    logout: function(req, res) {
+        req.session.user = null;
+        res.redirect('/', 301);
     },
 
     gif: function(req, res){
