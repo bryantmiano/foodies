@@ -1,14 +1,13 @@
 $(function () {
 
     $.notify.defaults({
-        globalPosition: 'bottom left',
+        globalPosition: 'bottom left'
     });
 
     ko.router.map([
         { route: '', module: 'home', title: 'Welcome', nav: true },
         { route: 'test', module: 'about', title: 'About Us', nav: true },
     ]);
-
 
     if ($('#foodies-container').length > 0) {
         Foodies.Init();
@@ -221,7 +220,11 @@ Foodies.Map = function () {
         };
 
         $.post('/nomination/create', newNomination, function (response) {
-            $.notify('You wanna eat there!', 'success');
+            $.notify('Hipchat notified that you want to nom nom there.', 'success');
+            $.post('/notify', {
+                color: "green",
+                message: '<b>' + self.selectedUser().name().capitalize() + '</b> wants to <i>nom nom</i> at <b>' + response.name + '</b>! <br/> <a href="http://foodies.herokuapp.com/dashboard">View</a>'
+            });
         });
     };
 
@@ -235,6 +238,13 @@ Foodies.Map = function () {
         $.post('/vote/create', newVote, function (response) {
             $.notify('You joined the ' + nomination.name() + ' party.', 'success');
             self.selectNomination(nomination);
+
+            console.log(nomination.votes().length);
+
+            $.post('/notify', {
+                color: "yellow",
+                message: '<b>' + self.selectedUser().name().capitalize() + '</b> joined the <b>' + nomination.name() + '</b> lunch party! <br/> <b>' + (nomination.votes().length + 2) + '</b> peeps now want to go. <br/> <a href="http://foodies.herokuapp.com/dashboard">View</a>'
+            });
         });
     };
 
@@ -251,6 +261,10 @@ Foodies.Map = function () {
                 success: function (result) {
                     $.notify('You left the ' + nomination.name() + ' party.  :(', 'success');
                     self.selectNomination(nomination);
+                    $.post('/notify', {
+                        color: "yellow",
+                        message: '<b>' + self.selectedUser().name().capitalize() + '</b> left the <b>' + nomination.name() + '</b> lunch party... <br/> <b>'  + (nomination.votes().length) + '</b> peeps still want to go. <br/> <a href="http://foodies.herokuapp.com/dashboard">View</a>'
+                    });
                 }
             });
         }
@@ -262,6 +276,11 @@ Foodies.Map = function () {
             type: 'DELETE',
             success: function (result) {
                 $.notify('Deleted.', 'success');
+
+                $.post('/notify', {
+                    color: "gray",
+                    message: '<b>' + self.selectedUser().name().capitalize() + '</b> no longer wants to <i>nom nom</i> at <b>' + nomination.name() + '</b>... <br/> <a href="http://foodies.herokuapp.com/dashboard">View</a>'
+                });
             }
         });
     };
@@ -496,3 +515,7 @@ ko.bindingHandlers.enterkey = {
         });
     }
 };
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}

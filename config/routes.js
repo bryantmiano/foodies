@@ -32,6 +32,11 @@ module.exports.routes = {
         action: 'login'
     },
 
+    '/notify': {
+        controller: 'home',
+        action: 'notify'
+    },
+
     '/register': {
         controller: 'home',
         action: 'register'
