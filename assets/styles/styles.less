@@ -281,21 +281,18 @@ a {
 }
 
 #foodie-selector {
-  background: @brand-primary;
-  color: white;
+  color: @brand-primary;
   padding: 15px;
   position: fixed;
   font-size: 18px;
   top: 0;
   right: 0;
   cursor: pointer;
-  border-bottom-left-radius: 10px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.22);
   border: none;
   z-index: 1000;
 
   &:hover {
-    background: lighten(@brand-primary, 10%);
+    color: lighten(@brand-primary, 10%);
   }
 }
 
