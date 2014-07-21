@@ -18,59 +18,36 @@
 module.exports = {
     _config: {},
 
-    login: function(req, res){
-        var bcrypt = require('bcrypt');
+    login: function (req, res) {
+        var name = req.param('name');
 
-        var email = req.param('email');
-        var password = req.param('password');
+        if (!name) {
+            res.json(null);
+        }
 
-        User.findOneByEmail(email, function(err, user){
+        User.findOneByName(name, function (err, user) {
             if (err) res.json({ error: 'DB error' }, 500);
 
-            if (user) {
-                bcrypt.compare(password, user.password, function (err, match) {
-                    if (err) res.json({ error: 'Server error' }, 500);
-
-                    if (match) {
-                        // password match
-                        req.session.user = user;
-                        res.json(user);
-                    } else {
-                        // invalid password
-                        res.json({ error: 'Invalid password' }, 400);
-                    }
+            if (!user) {
+                User.create({
+                    name: name
+                }).exec(function (err, newUser) {
+                    req.session.user = newUser;
+                    res.json(newUser);
                 });
-
-
             } else {
-                res.json({ error: 'User not found' }, 404);
+                // password match
+                req.session.user = user;
+                res.json(user);
             }
         });
     },
 
-    logout: function(req, res){
+    logout: function (req, res) {
         req.session.destroy;
-        req.session = null;
         req.session.user = null;
         res.redirect('/', 301);
     },
-
-    /*
-    login: function (req, res) {
-        var userId = req.param('id');
-
-        if(!userId) {
-            res.status(400);
-            res.json('User id is required');
-        }
-
-        User.findOne({ id: userId }, function (err, user) {
-     req.session.user = user;
-     res.json(user);
-        });
-    },
-
-    */
 
     getLoggedInUser: function (req, res) {
         if (req.session.user) {

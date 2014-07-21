@@ -31,11 +31,9 @@ $(function () {
         e.preventDefault();
 
         $.post('/user/login', form.serialize(), function(response){
-            form.find('button').notify('Login successful.', {className: 'success', position: 'right'});
             window.location.href = '/dashboard';
         }).fail(function(response){
             var response = $.parseJSON(response.responseText);
-            console.log(response);
             form.find('button').notify(response.error, {position: 'right'});
         });
     });
