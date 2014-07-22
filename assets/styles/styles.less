@@ -46,7 +46,8 @@ h1 {
 }
 
 input[type='text'], input[type='password'] {
-  font-size: 14px;
+  font-family: "Rancho";
+  font-size: 25px;
   padding: 10px;
   border: 1px solid rgb(214, 214, 214);
   box-shadow: 1px 1px 1px rgb(228, 228, 228);
@@ -57,6 +58,8 @@ footer {
 }
 
 button {
+  font-family: "Rancho";
+  font-size: 21px;
   background: @brand-primary;
   padding: 11px;
   color: white;
@@ -66,7 +69,7 @@ button {
   border-radius: 2px;
   border-bottom: 2px solid darken(@brand-primary, 10%);
   box-shadow: 1px 1px 1px rgb(167, 105, 64);
-  font-family: 'Arimo', sans-serif;
+  text-shadow: -1px -1px 0 #A0562F;
 
   i {
     margin-right: 5px;
@@ -282,15 +285,17 @@ a {
 }
 
 #foodie-selector {
+  font-family: "Rancho";
+  font-size: 25px;
   color: @brand-primary;
   padding: 15px;
   position: fixed;
-  font-size: 18px;
   top: 0;
   right: 0;
   cursor: pointer;
   border: none;
   z-index: 1000;
+  text-transform: capitalize;
 
   &:hover {
     color: lighten(@brand-primary, 10%);
@@ -307,12 +312,11 @@ a {
 }
 
 #no-nominations {
-  background: rgb(224, 224, 224);
-  padding: 20px;
+  font-family: "Rancho";
+  padding: 20px 0;
   color: rgb(129, 129, 129);
   margin-right: 70px;
-  border-bottom: 1px solid rgb(204, 204, 204);
-  border-radius: 5px;
+  font-size: 20px;
 }
 
 #map-container {
