@@ -42,7 +42,7 @@ module.exports.session = {
     // ttl: <redis session TTL in seconds>,
     db: 'barreleye-9249',
     pass: process.env.REDIS_PASSWORD,
-    prefix: 'redistogo:'
+     prefix: 'redistogo:'
     */
 
     // Uncomment the following lines to use your Mongo adapter as a session store
@@ -52,7 +52,8 @@ module.exports.session = {
     port: 9249,
     db: 'barreleye-9249',
     pass: process.env.REDIS_PASSWORD,
-
+    prefix: 'redistogo:'
+    
     /*
     adapter: 'mongo',
     url: process.env.MONGOLAB_URI,
