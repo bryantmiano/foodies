@@ -46,18 +46,20 @@ module.exports.session = {
 
     // Uncomment the following lines to use your Mongo adapter as a session store
 
+    /*
     adapter: 'redis',
     host: 'barreleye.redistogo.com',
     port: 9249,
     db: 'redistogo',
     pass: process.env.REDIS_PASSWORD,
+    */
 
-    /*
+
     adapter: 'mongo',
     url: process.env.MONGOLAB_URI,
     db: 'foodies',
     collection: 'sessions'
-    */
+    
 
     //
     // Optional Values:
