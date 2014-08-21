@@ -221,12 +221,10 @@ Foodies.Map = function () {
 
         $.post('/nomination/create', newNomination, function (response) {
             $.notify('Hipchat notified that you want to nom nom there.', 'success');
-            /*
             $.post('/notify', {
                 color: "green",
                 message: '<b>' + self.selectedUser().name().capitalize() + '</b> wants to <i>nom nom</i> at <b>' + response.name + '</b>! <br/> <a href="http://foodies.herokuapp.com/dashboard">View</a>'
             });
-            */
         });
     };
 
