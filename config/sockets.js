@@ -39,8 +39,7 @@ module.exports.sockets = {
     'websocket',
     'htmlfile',
     'xhr-polling',
-    'jsonp-polling',
-	'flashsocket'
+    'jsonp-polling'
   ],
 
 
