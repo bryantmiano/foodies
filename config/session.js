@@ -17,7 +17,7 @@ module.exports.session = {
     // Session secret is automatically generated when your new app is created
     // Replace at your own risk in production-- you will invalidate the cookies of your users,
     // forcing them to log in again.
-    secret: '0f835e099a84iojoij22e9ae6101a52d6bbde7',
+    secret: '0f835e099a8422e9ae6101a52d6bbde7',
 
 
     // Set the session cookie expire time
@@ -59,7 +59,7 @@ module.exports.session = {
     url: process.env.MONGOLAB_URI,
     db: 'foodies',
     collection: 'sessions'
-    
+
 
     //
     // Optional Values:
