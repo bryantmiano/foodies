@@ -39,14 +39,15 @@ module.exports.sockets = {
     'websocket',
     'htmlfile',
     'xhr-polling',
-    'jsonp-polling'
+    'jsonp-polling',
+	'flashsocket'
   ],
 
 
 
   // Use this option to set the datastore socket.io will use to manage rooms/sockets/subscriptions:
   // default: memory
-  //  adapter: 'memory',
+  adapter: 'memory',
 
 
   // Node.js (and consequently Sails.js) apps scale horizontally.

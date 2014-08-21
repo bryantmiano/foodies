@@ -64,7 +64,7 @@
             options.mappingOptions = {};
         }
 
-        socket.get(socketUrl, function (data) {
+        socket.get(socketUrl + '?sort=createdAt%20DESC', function (data) {
             if (!data instanceof Array) {
                 throw "Response for socket url" + socketUrl + " did not return an array."
             }
